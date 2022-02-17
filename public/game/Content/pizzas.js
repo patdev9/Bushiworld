@@ -37,7 +37,7 @@ window.Pizzas = {
     type: PizzaTypes.spicy,
     src: "/nfts/Ghost_warrior.png",
     icon: "/images/icons/moon.png",
-    actions: [ "damage1", "damage2", "clumsyStatus" ],
+    actions: [ "damage3", "damage4", "clumsyStatus" ],
   },
   "5": {
     name: "5",

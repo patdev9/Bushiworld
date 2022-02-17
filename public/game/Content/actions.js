@@ -18,6 +18,24 @@ window.Actions = {
       { type: "stateChange", damage: 10}
     ]
   },
+  damage4: {
+    name: "Rugpull!",
+    description: "NOT SAFU",
+    success: [
+      { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
+      { type: "animation", animation: "spin"},
+      { type: "stateChange", damage: 15}
+    ]
+  },
+  damage3: {
+    name: "Shuriken",
+    description: "Throw a shuriken on your opponent",
+    success: [
+      { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
+      { type: "animation", animation: "spin"},
+      { type: "stateChange", damage: 15}
+    ]
+  },
   saucyStatus: {
     name: "Senzu",
     description: "Take the power of the beans",
