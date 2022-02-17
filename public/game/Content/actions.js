@@ -24,7 +24,7 @@ window.Actions = {
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15}
+      { type: "stateChange", damage: 20}
     ]
   },
   damage3: {
@@ -33,7 +33,7 @@ window.Actions = {
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15}
+      { type: "stateChange", damage: 20}
     ]
   },
   saucyStatus: {
