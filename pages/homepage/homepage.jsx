@@ -43,7 +43,7 @@ const Homepage = () => {
   return (
     <>
 
-{blockchain.account === "" ||
+{/* {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   
                   <div className="text-center">
@@ -89,7 +89,7 @@ const Homepage = () => {
                       </>
                     ) : null}
                   </div>
-                ) : (
+                ) : ( */}
                  
                   <div  className="main-content">
     <div className="game-container">
@@ -135,7 +135,7 @@ const Homepage = () => {
     </div>
      
       </div>
-                )}
+                {/* )} */}
     
     
     </>
