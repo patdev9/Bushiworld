@@ -582,82 +582,45 @@ window.OverworldMaps = {
 
 //mini lac
 
-[utils.asGridCoord(34,12)] : true,
-[utils.asGridCoord(34,13)] : true,
-[utils.asGridCoord(34,14)] : true,
-
-[utils.asGridCoord(35,14)] : true,
-[utils.asGridCoord(36,14)] : true,
-[utils.asGridCoord(37,14)] : true,
-[utils.asGridCoord(38,14)] : true,
-
-[utils.asGridCoord(38,15)] : true,
-[utils.asGridCoord(38,16)] : true,
-
-[utils.asGridCoord(37,16)] : true,
-
-[utils.asGridCoord(37,17)] : true,
-
-[utils.asGridCoord(36,17)] : true,
-[utils.asGridCoord(35,17)] : true,
-[utils.asGridCoord(34,17)] : true,
-[utils.asGridCoord(33,17)] : true,
-[utils.asGridCoord(32,17)] : true,
-[utils.asGridCoord(31,17)] : true,
-
-[utils.asGridCoord(31,16)] : true,
-
-[utils.asGridCoord(30,16)] : true,
-
-[utils.asGridCoord(30,15)] : true,
-[utils.asGridCoord(30,14)] : true,
-
-[utils.asGridCoord(29,14)] : true,
-
-[utils.asGridCoord(29,13)] : true,
-
+[utils.asGridCoord(26,14)] : true,
+[utils.asGridCoord(27,14)] : true,
+[utils.asGridCoord(28,14)] : true,
 [utils.asGridCoord(28,13)] : true,
+[utils.asGridCoord(29,13)] : true,
+[utils.asGridCoord(30,13)] : true,
+[utils.asGridCoord(31,13)] : true,
+[utils.asGridCoord(31,14)] : true,
+[utils.asGridCoord(32,14)] : true,
+[utils.asGridCoord(33,15)] : true,
+[utils.asGridCoord(33,16)] : true,
+[utils.asGridCoord(34,16)] : true,
+[utils.asGridCoord(35,16)] : true,
+[utils.asGridCoord(36,16)] : true,
+[utils.asGridCoord(37,16)] : true,
+[utils.asGridCoord(37,17)] : true,
+[utils.asGridCoord(37,18)] : true,
+[utils.asGridCoord(37,19)] : true,
+[utils.asGridCoord(36,19)] : true,
+[utils.asGridCoord(36,20)] : true,
+[utils.asGridCoord(35,20)] : true,
+[utils.asGridCoord(34,20)] : true,
+[utils.asGridCoord(33,20)] : true,
+[utils.asGridCoord(32,20)] : true,
+[utils.asGridCoord(31,20)] : true,
+[utils.asGridCoord(30,20)] : true,
+[utils.asGridCoord(29,20)] : true,
+[utils.asGridCoord(29,19)] : true,
+[utils.asGridCoord(28,19)] : true,
+[utils.asGridCoord(28,18)] : true,
+[utils.asGridCoord(28,17)] : true,
+[utils.asGridCoord(27,17)] : true,
+[utils.asGridCoord(27,16)] : true,
+[utils.asGridCoord(26,16)] : true,
+[utils.asGridCoord(26,15)] : true,
 
-[utils.asGridCoord(28,12)] : true,
+//DALOS
 
-[utils.asGridCoord(29,12)] : true,
-[utils.asGridCoord(30,12)] : true,
 
-[utils.asGridCoord(30,11)] : true,
-
-[utils.asGridCoord(31,11)] : true,
-
-[utils.asGridCoord(31,12)] : true,
-[utils.asGridCoord(32,12)] : true,
-[utils.asGridCoord(33,12)] : true,
-
-[utils.asGridCoord(33,11)] : true,
-[utils.asGridCoord(33,10)] : true,
-[utils.asGridCoord(33,9)] : true,
-
-[utils.asGridCoord(32,9)] : true,
-
-[utils.asGridCoord(32,8)] : true,
-[utils.asGridCoord(32,7)] : true,
-[utils.asGridCoord(32,6)] : true,
-
-[utils.asGridCoord(33,6)] : true,
-[utils.asGridCoord(34,6)] : true,
-[utils.asGridCoord(35,6)] : true,
-[utils.asGridCoord(36,6)] : true,
-[utils.asGridCoord(37,6)] : true,
-[utils.asGridCoord(38,6)] : true,
-[utils.asGridCoord(39,6)] : true,
-[utils.asGridCoord(40,6)] : true,
-[utils.asGridCoord(41,6)] : true,
-[utils.asGridCoord(42,6)] : true,
-[utils.asGridCoord(43,6)] : true,
-
-[utils.asGridCoord(43,5)] : true,
-
-[utils.asGridCoord(44,5)] : true,
-[utils.asGridCoord(45,5)] : true,
-[utils.asGridCoord(46,5)] : true,
  
 
     },
