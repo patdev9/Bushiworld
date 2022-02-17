@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0xB8C3257E71E8294134E9B59a498d0BAF0c72C2b0",
+  
+  "SCAN_LINK": "https://cronos.crypto.org/explorer/address/0x2b01567e21bA068Fb89057b969317eB9f5A6f10f",
+  "NETWORK": {
+    "NAME": "Cronos",
+    "SYMBOL": "Cro",
+    "ID": 25
+  },
+  "NFT_NAME": "Bushicro",
+  "SYMBOL": "Bushi",
+  "MAX_SUPPLY": 2666,
+  "WEI_COST": 199000000000000000000,
+  "DISPLAY_COST": 199,
+  "GAS_LIMIT": 285000,
+
+  "SHOW_BACKGROUND": true
+}
