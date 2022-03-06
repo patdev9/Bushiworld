@@ -52,7 +52,7 @@ export const connect = () => {
     });
     const CONFIG = await configResponse.json();
     const { ethereum } = window;
-    console.log(ethereum)
+   
     const metamaskIsInstalled = ethereum && ethereum.isMetaMask;
     if (metamaskIsInstalled) {
       Web3EthContract.setProvider(ethereum);
@@ -77,6 +77,7 @@ export const connect = () => {
               web3: web3,
             })
           );
+          
           // Add listeners start
           ethereum.on("accountsChanged", (accounts) => {
             dispatch(updateAccount(accounts[0]));

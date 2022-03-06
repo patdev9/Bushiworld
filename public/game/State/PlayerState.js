@@ -10,24 +10,7 @@ class PlayerState {
         level: 1,
         status: null,
       },
-      // "p2": {
-      //   pizzaId: "v001",
-      //   hp: 50,
-      //   maxHp: 50,
-      //   xp: 75,
-      //   maxXp: 100,
-      //   level: 1,
-      //   status: null,
-      // },
-      // "p3": {
-      //   pizzaId: "f001",
-      //   hp: 50,
-      //   maxHp: 50,
-      //   xp: 75,
-      //   maxXp: 100,
-      //   level: 1,
-      //   status: null,
-      // }
+    
     }
     this.lineup = ["p1"];
     this.items = [
@@ -50,7 +33,7 @@ class PlayerState {
       level: 1,
       status: null,
     }
-    if (this.lineup.length < 3) {
+    if (this.lineup.length < 5) {
       this.lineup.push(newId)
     }
     utils.emitEvent("LineupChanged");

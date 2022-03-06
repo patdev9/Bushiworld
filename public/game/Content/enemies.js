@@ -38,9 +38,9 @@ window.Enemies = {
     src: "/images/characters/people/npc3.png",
     pizzas: {
       "a": {
-        hp: 70,
+        hp: 140,
         pizzaId: "4",
-        maxHp: 70,
+        maxHp: 140,
         level: 1,
       },
     }

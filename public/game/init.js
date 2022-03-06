@@ -1,6 +1,6 @@
-(function () {
+(async function ()  {
 
-  const overworld = new Overworld({
+  const overworld = await new Overworld({
     element: document.querySelector(".game-container")
   });
   overworld.init();

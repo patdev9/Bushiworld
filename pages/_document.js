@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-css-tags */
 // eslint-disable-next-line @next/next/no-css-tags
+// eslint-disable-next-line @next/next/no-script-in-document
+import Script from "next/script";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 
@@ -32,7 +34,8 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
             rel="stylesheet"
           />
-          <link href="../public/css/bootstrap.min.css"/>
+          <link href="/css/bootstrap.min.css"/>
+          <link rel="stylesheet" href="/css/dark.css" />
          
           <link
             href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -57,14 +60,12 @@ class MyDocument extends Document {
     <link href="/styles/Team.css" type="text/css" rel="stylesheet"/>
     <link href="/styles/Menus.css" type="text/css" rel="stylesheet"/>
 
-    
-
         </Head>
 
         <body>
+   
           <Main />
           <NextScript />
-          
         </body>
       </Html>
     );

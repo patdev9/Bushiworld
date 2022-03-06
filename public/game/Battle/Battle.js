@@ -5,46 +5,6 @@ class Battle {
     this.onComplete = onComplete;
 
     this.combatants = {
-      // "player1": new Combatant({
-      //   ...Pizzas.s001,
-      //   team: "player",
-      //   hp: 30,
-      //   maxHp: 50,
-      //   xp: 95,
-      //   maxXp: 100,
-      //   level: 1,
-      //   status: { type: "saucy" },
-      //   isPlayerControlled: true
-      // }, this),
-      // "player2": new Combatant({
-      //   ...Pizzas.s002,
-      //   team: "player",
-      //   hp: 30,
-      //   maxHp: 50,
-      //   xp: 75,
-      //   maxXp: 100,
-      //   level: 1,
-      //   status: null,
-      //   isPlayerControlled: true
-      // }, this),
-      // "enemy1": new Combatant({
-      //   ...Pizzas.v001,
-      //   team: "enemy",
-      //   hp: 1,
-      //   maxHp: 50,
-      //   xp: 20,
-      //   maxXp: 100,
-      //   level: 1,
-      // }, this),
-      // "enemy2": new Combatant({
-      //   ...Pizzas.f001,
-      //   team: "enemy",
-      //   hp: 25,
-      //   maxHp: 50,
-      //   xp: 30,
-      //   maxXp: 100,
-      //   level: 1,
-      // }, this)
     }
 
     this.activeCombatants = {
@@ -60,8 +20,6 @@ class Battle {
     Object.keys(this.enemy.pizzas).forEach(key => {
       this.addCombatant("e_"+key, "enemy", this.enemy.pizzas[key])
     })
-
-
     //Start empty
     this.items = []
 
@@ -99,7 +57,7 @@ class Battle {
       <img src="${'/images/characters/people/hero.png'}" alt="Hero" />
     </div>
     <div class="Battle_enemy">
-      <img src=${this.enemy.src} alt=${this.enemy.name} />
+    
     </div>
     `)
   }
@@ -117,6 +75,7 @@ class Battle {
       combatant.init(this.element)
       
       //Add to correct team
+
       if (combatant.team === "player") {
         this.playerTeam.combatants.push(combatant);
       } else if (combatant.team === "enemy") {
@@ -143,10 +102,10 @@ class Battle {
             const playerStatePizza = playerState.pizzas[id];
             const combatant = this.combatants[id];
             if (combatant) {
-              playerStatePizza.hp = combatant.hp;
-              playerStatePizza.xp = combatant.xp;
-              playerStatePizza.maxXp = combatant.maxXp;
-              playerStatePizza.level = combatant.level;
+              // playerStatePizza.hp = combatant.hp;
+              // playerStatePizza.xp = combatant.xp;
+              // playerStatePizza.maxXp = combatant.maxXp;
+              // playerStatePizza.level = combatant.level;
             }
           })
 
@@ -164,8 +123,6 @@ class Battle {
       }
     })
     this.turnCycle.init();
-
-
   }
 
 }

@@ -1,4 +1,6 @@
 window.Actions = {
+
+
   ATTACK1: {
     name: "Slash",
     description: "Take out your weapon and slash your opponent.",
@@ -27,7 +29,7 @@ window.Actions = {
     ]
   },
   ATTACK4: {
-    name: "Furious Attack",
+    name: "Furious Attack (Fury Attack) Not Furry attack",
     description: "Attack in quick successions.",
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
@@ -504,11 +506,11 @@ window.Actions = {
   //   ]
   // },
   damage1: {
-    name: "Rug pull!",
+    name: "Rugpull!",
     description: "NOT SAFU",
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
-       { type: "animation", animation: "spin"},
+      { type: "animation", animation: "spin"},
       { type: "stateChange", damage: 10}
     ]
   },

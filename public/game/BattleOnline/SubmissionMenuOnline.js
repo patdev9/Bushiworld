@@ -1,4 +1,4 @@
-class SubmissionMenu { 
+class SubmissionMenuOnline { 
   constructor({ caster, enemy, onComplete, items, replacements }) {
     this.caster = caster;
     this.enemy = enemy;
@@ -132,6 +132,9 @@ class SubmissionMenu {
     this.keyboardMenu = new KeyboardMenu();
     this.keyboardMenu.init(container);
     this.keyboardMenu.setOptions( this.getPages().root )
+  }
+  showMenuPlayer2(container){
+    
   }
 
   init(container) {

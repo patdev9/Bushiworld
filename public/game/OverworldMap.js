@@ -670,12 +670,11 @@ window.OverworldMaps = {
         talking: [
           {
             events: [
-             
               { type: "textMessage", text: "We finally meet, Black Bunny! Let's end it once and for all", faceHero: "npcB" },
               { type: "battle", enemyId: "Bushi" },
-              { type: "addStoryFlag", flag: "DEFEATED_Bushi"},
-              { type: "textMessage", text: "You won the battle but the war isn't over.", faceHero: "npcB" },
-              { type: "textMessage", text: "Go away!"},
+              // { type: "addStoryFlag", flag: "DEFEATED_Bushi"},
+              // { type: "textMessage", text: "You won the battle but the war isn't over.", faceHero: "npcB" },
+              // { type: "textMessage", text: "Go away!"},
             ]
           }
         ]

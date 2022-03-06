@@ -35,35 +35,48 @@ export const fetchData = () => {
       //   .call();
       let accont = await store.getState().blockchain.account
       let nfts = await store.getState().blockchain.smartContract.methods.walletOfOwner(accont).call()
-    
+     
       let jsondata = [];
+     
       for(let i = 0; i < nfts.length; i++) {
         
   
         let tokenMetadataURI = await store.getState().blockchain.smartContract.methods.tokenURI(nfts[i]).call()
-        
+      
         if (tokenMetadataURI.startsWith("ipfs://")) {
           tokenMetadataURI = `https://ipfs.io/ipfs/${tokenMetadataURI.split("ipfs://")[1]}`
         }
         jsondata.push(tokenMetadataURI);
+        
       }
+      
     
      let imgs= []
+     let bushis = []
+     
      for(let i = 0;i< jsondata.length;i++){
       const tokenMetadata = await fetch(jsondata[i]).then((response) => response.json())
+     
+      let d
+      await fetch(`http://localhost:5555/bushi/${tokenMetadata.name.slice(18,23)}`).then((res) => {return res.json()}).then(data=>d =(data[0]))
+    
+       bushis.push(d)
+     
       if (tokenMetadata.image.startsWith("ipfs://")) {
           tokenMetadata.image = `https://ipfs.io/ipfs/${tokenMetadata.image.split("ipfs://")[1]}`
         }
       imgs.push(tokenMetadata);
      }
-     
+   
       dispatch(
         fetchDataSuccess({
           totalSupply,
-          imgs
+          imgs,
+          bushis
           // cost,
         })
       );
+      
     } catch (err) {
       console.log(err);
       dispatch(fetchDataFailed("Could not load data from contract."));

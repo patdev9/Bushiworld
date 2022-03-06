@@ -86,6 +86,15 @@ class OverworldEvent {
 
   }
 
+  battleOnline(resolve){
+    const battleOnline = new BatOnline({
+      onComplete : ()=>{
+        resolve()
+      }
+    })
+    battleOnline.init(document.querySelector(".game-container"));
+  }
+
   pause(resolve) {
     this.map.isPaused = true;
     const menu = new PauseMenu({
@@ -96,7 +105,7 @@ class OverworldEvent {
         this.map.overworld.startGameLoop();
       }
     });
-    menu.init(document.querySelector(".game-container"));
+      menu.init(document.querySelector(".game-container"));
   }
 
   addStoryFlag(resolve) {

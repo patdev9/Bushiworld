@@ -7,8 +7,10 @@ class TurnCycle {
   }
 
   async turn() {
-    //Get the caster
+    // Get the caster
+     
     const casterId = this.battle.activeCombatants[this.currentTeam];
+   
     const caster = this.battle.combatants[casterId];
     const enemyId = this.battle.activeCombatants[caster.team === "player" ? "enemy" : "player"]
     const enemy = this.battle.combatants[enemyId];
@@ -107,8 +109,8 @@ class TurnCycle {
     }
 
 
-    //Check for post events
-    //(Do things AFTER your original turn submission)
+    // Check for post events
+    // (Do things AFTER your original turn submission)
     const postEvents = caster.getPostEvents();
     for (let i=0; i < postEvents.length; i++ ) {
       const event = {

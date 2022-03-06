@@ -6,6 +6,7 @@ class TitleScreen {
   getOptions(resolve) {
     const safeFile = this.progress.getSaveFile();
     return [
+     
       { 
         label: "New Game",
         description: "Start a new adventure!",
