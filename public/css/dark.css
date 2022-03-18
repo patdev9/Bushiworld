@@ -47,6 +47,22 @@ body {
   font-family: 'Mochiy Pop P One', sans-serif;
 }
 
+.buttonBushi{
+  margin-left: 5px;
+  appearance: none;
+  outline: 0;
+  background-color: rgb(5, 7, 83);
+  border: 0;
+  padding: 10px 15px;
+  color: black;
+  border-radius: 3px;
+  width: 250px;
+  cursor: pointer;
+  font-size: 18px;
+  transition-duration: 0.25s;
+}
+
+
 img {
   width: 100%;
   height: auto;

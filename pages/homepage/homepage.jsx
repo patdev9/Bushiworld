@@ -8,17 +8,23 @@ import Script from "next/script";
 import { io } from "socket.io-client";
 
 
+
 const Homepage = () => {
   let startButton;
+  let infoDisplay;
+  let input;
   if (typeof window !== "undefined") {
     // Client-side-only code
      startButton = window.document.querySelector('#start')
+      infoDisplay = document.querySelector('#info')
+     input = document.getElementById('input');
   }
  
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   let Playerdata;
+   let bbonline = true
   let PlayNum = 0
   let ready = 0
   let enemyReady = 0
@@ -43,7 +49,10 @@ const Homepage = () => {
     MARKETPLACE: "",
     MARKETPLACE_LINK: "",
     SHOW_BACKGROUND: false,
+   
   });
+
+  
 
   const getData = () => {
    
@@ -112,13 +121,15 @@ const Homepage = () => {
   
   const OnlineGame = async  ()=>{
     const socket = io('http://127.0.0.1:3333')
-    let room = "pat"
+    let room = input.value
     console.log(socket, 'soket')
     socket.emit('join',room);
     let data = window.playerState 
     let nfts = window.Pizzas
     console.log(data)
-    socket.emit('player-data', data,nfts,room)
+    let wallet = blockchain.account
+    console.log(wallet)
+    socket.emit('player-data', data,nfts,room,wallet)
    
     socket.on('player-number',(num,datas )=> {
       console.log(num)
@@ -134,7 +145,6 @@ const Homepage = () => {
       socket.emit('check-players',room)
       console.log(PlayNum)
     })
-
     socket.on('data',(data,nft)=>{
       console.log(nft,'ppppppppppppppppppppppppppp')
       console.log(data)
@@ -153,15 +163,10 @@ const Homepage = () => {
       ready = true
     }
     if(ready && enemyReady ) playGameMulti(socket, Playerdata,room)
-    
     })
-    
-  
-  
     socket.on('player-connection',(num,datas) => {
       console.log(num,"pppppp")
       console.log(datas)
-     
       console.log(`Player number ${num} has connected or desconnected`)
       playerConnectedOrDisconnected(num)
     })
@@ -205,9 +210,10 @@ const Homepage = () => {
     let data = window.playerState 
     let nfts = window.Pizzas
     console.log(data)
-    socket.emit('player-data', data,nfts,room)
-   
-    socket.on('player-number',(num,datas )=> {
+    let wallet = blockchain.account
+    console.log(wallet)
+    socket.emit('player-data', data,nfts,room,wallet)
+    socket.on('player-number',(num,datas, )=> {
       console.log(num,'PLAYNUM')
       console.log(datas)
       localStorage.setItem('PlayerNumber',num);
@@ -229,6 +235,7 @@ const Homepage = () => {
       localStorage.setItem('PlayerData', JSON.stringify(data));
       localStorage.setItem('nfts', JSON.stringify(nft));
     })
+
     start.addEventListener('click',() =>{
       console.log('START GAMEEEEEE')
      console.log(PlayNum,'zzz')
@@ -240,10 +247,7 @@ const Homepage = () => {
       ready = true
     }
     if(ready && enemyReady ) playGameMulti(socket, Playerdata,room)
-    
     })
-    
-  
   
     socket.on('player-connection',(num,datas) => {
       console.log(num,"pppppp")
@@ -315,44 +319,54 @@ const Homepage = () => {
    
   }
 
+  let menu
+  
+  if(bbonline == true){
+    menu = <>
+      <div  id="info"></div>
+      <input id="input"  />
+   <button onClick={()=>{  
+     OnlineGame()
 
+   }} > Matchmaking</button>
+   <button onClick={()=>{  
+     OnGame()
+
+   }} > Matchmaking2</button>
+   <button id="start" > BatOnline</button>
+   <div className="player p1"> player 1
+     <div className="connected">Connected  <span></span>
+       
+     </div>
+     <div className="ready">Ready <span></span></div>
+   </div>
+   <div className="player p2"> player 2
+     <div className="connected">Connected <span></span>
+       <div className="ready">Ready <span></span></div>
+     </div>
+     <div className="ready"></div>
+   </div> 
+    </>
+  }
+  if(bbonline = false) {
+    menu = ""
+  }
   
  
   
  
   return (
     <div className="main-content">
-    
-    <div id="info"></div>
-   
-    <button onClick={()=>{  
-      OnlineGame()
 
-    }} > Matchmaking</button>
-    <button onClick={()=>{  
-      OnGame()
 
-    }} > Matchmaking2</button>
-    <button id="start" > BatOnline</button>
-    <div className="player p1"> player 1
-      <div className="connected">Connected  <span></span>
-        
-      </div>
-      <div className="ready">Ready <span></span></div>
-    </div>
-    <div className="player p2"> player 2
-      <div className="connected">Connected <span></span>
-        <div className="ready">Ready <span></span></div>
-      </div>
-      <div className="ready"></div>
-    </div> 
-   
+
+ 
    
 
  {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   
-                  <div className="text-center">
+                  <div className="text-center mt-40">
                       
                   <a onClick={async (e)  =>  {
                         e.preventDefault();
@@ -360,7 +374,7 @@ const Homepage = () => {
                         
                         getData();
                         
-                      }}   className="mt-50 butn bord curve">Connect</a>
+                      }}   className="mt-50 buttonBushi">Metamask</a>
                   <a  onClick={async (e)  =>  {
                         e.preventDefault();
                        
@@ -369,14 +383,14 @@ const Homepage = () => {
                        
                         getData();
                        
-                      }} className="dropdown-item">Defi wallet</a>
+                      }} className="buttonBushi">Defi wallet</a>
                   <a   onClick={async (e)  =>  {
                         e.preventDefault();
                         
                         dispatch(connectW())
                         
                         getData();
-                      }} className="dropdown-item">wallet-connect</a>
+                      }} className="buttonBushi">Wallet Connect</a>
               
                     <div
                      className="text-center"
@@ -399,10 +413,52 @@ const Homepage = () => {
                 ) : ( 
                  
                   <div  className="main-content">
-                     <button onClick={()=> getDatanfts()}> Load NFTS</button>
+                    <h3 className="text-center">Online Game</h3>
+       <div className="row  ml-1 justify-content-center">
+      <div  id="info"></div>
+      
+      <input className="mr-10" id="input"  />
+     
+   <button id="join" className="mr-2 ml-2" onClick={()=>{  
+     OnlineGame()
+
+   }} > Join or Create</button>
+   {/* <button onClick={()=>{  
+     OnGame()
+
+   }} > Matchmaking2</button> */}
+
+   <button id="start" > Ready</button>
+   </div>
+   <div className="row  text-center justify-content-center">
+   <div className="player p1 col"> player 1
+     <div className="connected">Connected  <span></span>
+       
+     </div>
+     <div className="ready">Ready <span></span></div>
+   </div>
+   <div className="player p2 col"> player 2
+     <div className="connected">Connected <span></span>
+       <div className="ready">Ready <span></span></div>
+     </div>
+     <div className="ready"></div>
+   </div> 
+   </div>
+    <div className="container justify-content-center">
+    <button onClick={()=> getDatanfts()}> Load NFTS</button>
+    </div>
+                    
     <div className="game-container">
     <canvas className="game-canvas" width="352" height="198"></canvas>
   
+  
+
+    <Script src="game/init.js"></Script>
+    </div>
+     
+      </div>
+                 )} 
+    
     <Script src="game/Content/pizzas.js"></Script>
     <Script src="game/Content/actions.js"></Script>
     <Script src="game/Content/enemies.js"></Script>
@@ -449,14 +505,6 @@ const Homepage = () => {
     <Script src="game/Bat/EventOnline.js"></Script>
     <Script src="game/Bat/OnlineMenu.js"></Script>
     <Script src="game/Bat/replaceOnline.js"></Script>
-
-    <Script src="game/init.js"></Script>
-    </div>
-     
-      </div>
-                 )} 
-    
-    
     </div>
   );
 };
