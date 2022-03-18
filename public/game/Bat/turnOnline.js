@@ -11,15 +11,14 @@ class TurnOnline{
     }
     async turn(){
         //
-        console.log(this.battle.activeCombatants,'AACCCCCTIV VCOMLMMMV')
-        console.log(this.battle,'BATTLLLLELLELEELE')
+     
         const casterId = this.battle.activeCombatants[this.currentTeam];
    
         const caster = this.battle.combatants[casterId];
         
         const enemyId = this.battle.activeCombatants[caster.team === "player" ? "enemy" : "player"]
         const enemy = this.battle.combatants[enemyId];
-        console.log(enemy,'ENEMY')
+ 
        
         const submission = await this.onNewEvent({
             type: "submissionMenu",
@@ -106,7 +105,7 @@ class TurnOnline{
       }
         
           this.currentTeam = this.currentTeam === "player" ? "enemy" : "player";
-          console.log(this.currentTeam,'CURENTTT TEAM');
+          
           this.turn();
     }
 
