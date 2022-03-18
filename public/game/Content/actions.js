@@ -491,7 +491,7 @@ window.Actions = {
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", status: { type: "saucy", expiresIn: 1 }  }
+      { type: "stateChange", damage: 23  }
     ]
   },
   // ATTACK16: {
@@ -527,7 +527,7 @@ window.Actions = {
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 20}
+      { type: "stateChange", damage: 50}
     ]
   },
   damage3: {

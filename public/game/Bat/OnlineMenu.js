@@ -1,9 +1,11 @@
 class onlineMenu { 
-    constructor({ caster, enemy, onComplete,socket }) {
+    constructor({ caster, enemy, onComplete,socket,PlayNum,room}) {
       this.caster = caster;
       this.enemy = enemy;
       this.onComplete = onComplete;
       this.socket = socket
+      this.PlayNum = PlayNum
+      this.room =room
     }
 
     getPages() {
@@ -64,7 +66,7 @@ class onlineMenu {
 
       menuSubmit(action, instanceId=null) {
 
-        this.socket.emit('Attaque',action)
+        this.socket.emit('Attaque',action,this.room)
         this.keyboardMenu?.end();
         console.log(action)
         this.onComplete({
@@ -78,18 +80,18 @@ class onlineMenu {
       }
   
    async decide() {
-    let Ass = Math.floor(Math.random() * (2 + 1))
-    this.menuSubmit(Actions[ this.caster.actions[Ass] ]);
+    // let Ass = Math.floor(Math.random() * (2 + 1))
+    // this.menuSubmit(Actions[ this.caster.actions[Ass] ]);
        
-    // this.socket.once('AttaqueP1', (data) => {
+    this.socket.once('AttaqueP1', (data) => {
      
-    //     console.log(data,'decide')
-    //     this.onComplete({
-    //         action: data,
-    //         target: this.enemy
-    //       })
+        console.log(data,'decide')
+        this.onComplete({
+            action: data,
+            target: this.enemy
+          })
         
-    // });
+    });
     // this.socket.on('AttaqueP1',(data)=>{
     //     console.log(data,'decide')
     // })
@@ -160,13 +162,13 @@ class onlineMenu {
         let player = localStorage.getItem('PlayerNumber')
         console.log(this.caster)
         console.log(this.enemy)
-        if(this.caster.player == player ){
-            this.showMenu(container)
-        }
-        else{
-          await this.decide()
-        }
-
+       
+            if(this.caster.player == this.PlayNum ){
+                this.showMenu(container)
+            }
+            else{
+              await this.decide()
+            }
       
     }
   }

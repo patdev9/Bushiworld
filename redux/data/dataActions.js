@@ -58,7 +58,7 @@ export const fetchData = () => {
       const tokenMetadata = await fetch(jsondata[i]).then((response) => response.json())
      
       let d
-      await fetch(`http://localhost:5555/bushi/${tokenMetadata.name.slice(18,23)}`).then((res) => {return res.json()}).then(data=>d =(data[0]))
+      await fetch(`http://127.0.0.1:3333/bushi/${tokenMetadata.name.slice(18,23)}`).then((res) => {return res.json()}).then(data=>d =(data[0]))
     
        bushis.push(d)
      

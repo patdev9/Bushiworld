@@ -5,7 +5,7 @@ class TextMessage {
     this.element = null;
   }
 
-  createElement() {
+ async createElement() {
     //Create the element
     this.element = document.createElement("div");
     this.element.classList.add("TextMessage");
@@ -21,15 +21,18 @@ class TextMessage {
       text: this.text
     })
 
-    this.element.querySelector("button").addEventListener("click", () => {
-      //Close the text message
-      this.done();
-    });
+    // this.element.querySelector("button").addEventListener("click", () => {
+    //   //Close the text message
+    //   this.done();
+    // });
 
-    this.actionListener = new KeyPressListener("Enter", () => {
-      this.done();
-    })
-
+    // this.actionListener = new KeyPressListener("Enter", () => {
+    //   this.done();
+    // })
+    await utils.wait(3000)
+    this.element.remove();
+   // this.actionListener.unbind();
+    this.onComplete();
   }
 
   done() {
