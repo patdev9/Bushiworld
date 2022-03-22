@@ -498,6 +498,8 @@ window.OverworldMaps = {
       [utils.asGridCoord(34,27)] : true,
       [utils.asGridCoord(33,25)] : true,
 
+      [utils.asGridCoord(34,26)] : true,
+
 //DALOS
 
 

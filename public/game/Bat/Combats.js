@@ -8,19 +8,18 @@ class CombatantOnline {
     }
 
     get hpPercent() {
-        console.log(this.hp)
+        
         const percent = this.hp / this.maxHp * 100;
         return percent > 0 ? percent : 0;
-      }
+    }
   
       get xpPercent() {
-        console.log(this.xp)
+        
         return this.xp / this.maxXp * 100;
       }
 
       get isActive(){
-          console.log(this.id)
-          console.log(this.team)
+          
           return this.battle?.activeCombatants[this.team] === this.id
       }
   
@@ -61,7 +60,7 @@ class CombatantOnline {
         Object.keys(changes).forEach(key => {
             this[key] = changes[key]
         })
-        console.log('llp')
+      
         this.hudElement.setAttribute("data-active", this.isActive)
         this.hpFills.forEach(rect => rect.style.width = `${this.hpPercent}%`)
         this.xpFills.forEach(rect => rect.style.width = `${this.xpPercent}%`)
