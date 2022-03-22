@@ -341,12 +341,22 @@ const Homepage = () => {
   if(bbonline = false) {
     menu = ""
   }
+
+  function displayOnlineGame() {
+    const x = document.getElementById("container-online-game");
+    if (document.getElementById("container-online-game") && x.style.display === "block") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "block";
+    }
+  }
+
   
  
   
  
   return (
-    <div className="main-content">
+    <div className="main-content" id="main-content-content">
 
 
 
@@ -356,7 +366,7 @@ const Homepage = () => {
  {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   
-                  <div className="text-center mt-40">
+                  <div id="connect-network" className="text-center mt-40 container-button-connect-bushi">
                       
                   <a onClick={async (e)  =>  {
                         e.preventDefault();
@@ -402,41 +412,75 @@ const Homepage = () => {
                   </div>
                 ) : ( 
                  
-                  <div  className="main-content">
-                    <h3 className="text-center">Online Game</h3>
-       <div className="row  ml-1 justify-content-center">
-      <div  id="info"></div>
-      
-      <input className="mr-10" id="input"  />
-     
-   <button id="join" className="mr-2 ml-2" onClick={()=>{  
-     OnlineGame()
-
-   }} > Join or Create</button>
-   {/* <button onClick={()=>{  
-     OnGame()
-
-   }} > Matchmaking2</button> */}
-
-   <button id="start" > Ready</button>
-   </div>
-   <div className="row  text-center justify-content-center">
-   <div className="player p1 col"> player 1
-     <div className="connected">Connected  <span></span>
-       
-     </div>
-     <div className="ready">Ready <span></span></div>
-   </div>
-   <div className="player p2 col"> player 2
-     <div className="connected">Connected <span></span>
-       <div className="ready">Ready <span></span></div>
-     </div>
-     <div className="ready"></div>
-   </div> 
-   </div>
-    <div className="container justify-content-center">
-    <button onClick={()=> getDatanfts()}> Load NFTS</button>
-    </div>
+                  <div className="main-content">
+                  <div className="container-buttons-online">
+                    <div className="container-button-online-load">
+                      <div className="container-load-nft">
+                        <button onClick={() => getDatanfts()}> Load NFTS</button>
+                      </div>
+                      <div className="container-button-online-game">
+                        <button onClick={displayOnlineGame} className="text-center">
+                          Online Game
+                        </button>
+                      </div>
+                    </div>
+                    <div className="container-online-game" id="container-online-game">
+                      <div className="online-game-container">
+                        <div className="player p1">
+                          {" "}
+                          player 1
+                          <div className="connected">
+                            Connected <span></span>
+                          </div>
+                          <div className="ready">
+                            Ready <span></span>
+                          </div>
+                        </div>
+                        <div
+                          className=" justify-content-center"
+                          id="input-game-session"
+                        >
+                          <div id="info"></div>
+        
+                          <input
+                            placeholder="enter room name.."
+                            className="mr-10"
+                            id="input"
+                          />
+        
+                          <button
+                            id="join"
+                            className="mr-2 ml-2"
+                            onClick={() => {
+                              OnlineGame();
+                            }}
+                          >
+                            {" "}
+                            Join or Create
+                          </button>
+                          {/* <button onClick={()=>{  
+             OnGame()
+        
+           }} > Matchmaking2</button> */}
+        
+                          <button id="start"> Ready</button>
+                        </div>
+                        <div className="row  justify-content-center">
+                          <div className="player p2">
+                            {" "}
+                            player 2
+                            <div className="connected">
+                              Connected <span></span>
+                              <div className="ready">
+                                Ready <span></span>
+                              </div>
+                            </div>
+                            <div className="ready"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                     
     <div className="game-container">
     <canvas className="game-canvas" width="352" height="198"></canvas>
