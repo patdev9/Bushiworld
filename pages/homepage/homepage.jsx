@@ -31,7 +31,7 @@ const Homepage = () => {
   let currentPlayer = 'user'
   
   // const infoDisplay = window.document.querySelector('#info')
-   console.log(useSelector((state) => state.data))
+   
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -83,7 +83,7 @@ const Homepage = () => {
     
   },  [blockchain.account]);
   const getDatanfts = async () =>{
-    console.log(data,'ANISSSSSSSSS')
+ 
     // axios.get(`http://localhost:5555/bushi/12`).then(res => console.log(res,'PATOU'))
     // for(let i = 0 ; (i < data.bushis.length) || ( i < 5) ;i++){
     //   console.log('^ppppppp')
@@ -91,16 +91,13 @@ const Homepage = () => {
     //   let pat 
     //   //await fetch(`http://localhost:5555/bushi/${data.bushis[i].name.slice(18,23)}`).then((res) =>pat =res.json())     
     // }
-    console.log(window.playerState.pizzas.p1,'PPPPPPPP')
+   
     window.playerState.pizzas = {}
      window.playerState.lineup = []
     for(let i = 0;i < data.bushis.length;i++){
       let tt = data.bushis[i].attr.slice(18,23)
       let type = data.bushis[i].type.name
-      console.log(window.Pizzas)
-      console.log(data.bushis[i].nftskill.basic.name)
-      console.log(data.bushis[i].nftskill.typeskill.name)
-      console.log(data.bushis[i].nftskill.special.name)
+    
       let pp = {
         name: data.bushis[i].name,
         description: data.bushis[i].desc,
@@ -109,9 +106,8 @@ const Homepage = () => {
         icon: `/images/icons/${type}.png`,
         actions: [ data.bushis[i].nftskill.basic.name, data.bushis[i].nftskill.typeskill.name , data.bushis[i].nftskill.special.name ],
       }
-      console.log(tt)
+     
       window.Pizzas[tt] = pp
-      console.log(window.Pizzas[tt],'ppapappap')
       window.playerState.addPizza(tt)
      
     }
@@ -122,20 +118,19 @@ const Homepage = () => {
   const OnlineGame = async  ()=>{
     const socket = io('http://127.0.0.1:3333')
     let room = input.value
-    console.log(socket, 'soket')
-    socket.emit('join',room);
+    
+    let wallet = blockchain.account
+    socket.emit('join',room,wallet);
     let data = window.playerState 
     let nfts = window.Pizzas
-    console.log(data)
-    let wallet = blockchain.account
+
     console.log(wallet)
     socket.emit('player-data', data,nfts,room,wallet)
    
     socket.on('player-number',(num,datas )=> {
-      console.log(num)
-      console.log(datas)
+      
       localStorage.setItem('PlayerNumber',num);
-      console.log(num,'lllllll')
+     
       if (num == -1){
         infoDisplay.innerHTML = "Sorry, the server is full"
       }else {
@@ -143,21 +138,19 @@ const Homepage = () => {
       }
       if(PlayNum == 1) currentPlayer ="enemy"
       socket.emit('check-players',room)
-      console.log(PlayNum)
+      
     })
     socket.on('data',(data,nft)=>{
-      console.log(nft,'ppppppppppppppppppppppppppp')
-      console.log(data)
+    
       Playerdata = data
       localStorage.setItem('PlayerData', JSON.stringify(data));
       localStorage.setItem('nfts', JSON.stringify(nft));
     })
     start.addEventListener('click',() =>{
-      console.log('START GAMEEEEEE')
-     console.log(PlayNum,'zzz')
+      
      socket.emit('player-ready',room)
      playerReady(PlayNum)
-    console.log(Playerdata,'PPAPPAPAPAPAPAPAPPAAPAPAPAAPAPAPAPAP')
+    
      if(!ready){
       socket.emit('player-ready',room)
       ready = true
@@ -165,9 +158,7 @@ const Homepage = () => {
     if(ready && enemyReady ) playGameMulti(socket, Playerdata,room)
     })
     socket.on('player-connection',(num,datas) => {
-      console.log(num,"pppppp")
-      console.log(datas)
-      console.log(`Player number ${num} has connected or desconnected`)
+    
       playerConnectedOrDisconnected(num)
     })
 
@@ -189,35 +180,38 @@ const Homepage = () => {
         }
       })
     })
+
     function playerReady(num){
-      console.log(num)
       let player = `.p${parseInt(num) +1}`
       document.querySelector(`${player} .ready span`).classList.toggle('green')
     }
 
     function playerConnectedOrDisconnected(num) {
-      let player = `.p${parseInt(num) +1}`
-      document.querySelector(`${player} .connected span`).classList.toggle('green')
-      if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
+      console.log(num)
+      if(num >= 0 && num <= 1){
+        let player = `.p${parseInt(num) +1}`
+        document.querySelector(`${player} .connected span`).classList.toggle('green')
+        if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
+      }
+     
     }
 
   }
   const OnGame = async  ()=>{
     const socket = io('http://127.0.0.1:3333')
     let room = "ASS"
-    console.log(socket, 'soket')
-    socket.emit('join',room);
+    let wallet = blockchain.account
+    socket.emit('join',room,wallet);
     let data = window.playerState 
     let nfts = window.Pizzas
-    console.log(data)
-    let wallet = blockchain.account
-    console.log(wallet)
+  
+    
+   
     socket.emit('player-data', data,nfts,room,wallet)
     socket.on('player-number',(num,datas, )=> {
-      console.log(num,'PLAYNUM')
-      console.log(datas)
+    
       localStorage.setItem('PlayerNumber',num);
-      console.log(num,'lllllll')
+    
       if (num == -1){
         infoDisplay.innerHTML = "Sorry, the server is full"
       }else {
@@ -225,23 +219,21 @@ const Homepage = () => {
       }
       if(PlayNum == 1) currentPlayer ="enemy"
       socket.emit('check-players',room)
-      console.log(PlayNum,'pppppAAAA')
+     
     })
 
     socket.on('data',(data,nft)=>{
-      console.log(nft,'ppppppppppppppppppppppppppp')
-      console.log(data)
+     
       Playerdata = data
       localStorage.setItem('PlayerData', JSON.stringify(data));
       localStorage.setItem('nfts', JSON.stringify(nft));
     })
 
     start.addEventListener('click',() =>{
-      console.log('START GAMEEEEEE')
-     console.log(PlayNum,'zzz')
+      
      socket.emit('player-ready',room)
      playerReady(PlayNum)
-    console.log(Playerdata,'PPAPPAPAPAPAPAPAPPAAPAPAPAAPAPAPAPAP')
+   
      if(!ready){
       socket.emit('player-ready',room)
       ready = true
@@ -250,8 +242,7 @@ const Homepage = () => {
     })
   
     socket.on('player-connection',(num,datas) => {
-      console.log(num,"pppppp")
-      console.log(datas)
+    
      
       console.log(`Player number ${num} has connected or desconnected`)
       playerConnectedOrDisconnected(num)
@@ -276,13 +267,13 @@ const Homepage = () => {
       })
     })
     function playerReady(num){
-      console.log(num,'PLAYERREADY')
+      
       let player = `.p${parseInt(num) +1}`
       document.querySelector(`${player} .ready span`).classList.toggle('green')
     }
 
     function playerConnectedOrDisconnected(num) {
-      console.log(num,'PLAYER CONNECTION')
+     
       let player = `.p${parseInt(num) +1}`
       document.querySelector(`${player} .connected span`).classList.toggle('green')
       if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
@@ -299,8 +290,7 @@ const Homepage = () => {
       playerReady(PlayNum)
     }
   
-     console.log('PPPPPAAAAAAAATTTTTTTTTTATTAATATATATATATATATTA')
-      console.log(Playerdata, 'PALYERDATA')
+   
       const batOnline = new BatOnline({
         PlayNum:PlayNum,
         PData:Playerdata,
@@ -315,7 +305,7 @@ const Homepage = () => {
         if(!a){
           batOnline.init(document.querySelector(".game-container"));
         }
-    console.log(resu,'RESSSSSUUUUUUUUUUU')
+    
    
   }
 
