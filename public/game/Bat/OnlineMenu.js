@@ -68,7 +68,7 @@ class onlineMenu {
 
         this.socket.emit('Attaque',action,this.room)
         this.keyboardMenu?.end();
-        console.log(action)
+        
         this.onComplete({
           action,
           target: action.targetType === "friendly" ? this.caster : this.enemy
@@ -85,7 +85,7 @@ class onlineMenu {
        
     this.socket.once('AttaqueP1', (data) => {
      
-        console.log(data,'decide')
+       
         this.onComplete({
             action: data,
             target: this.enemy
@@ -138,7 +138,7 @@ class onlineMenu {
         let clientData= 'pppp'
         const result = await this.asyncEmit("Attaque", clientData); 
         // and have it returned back, something like a Fetch request
-        console.log(result);
+        
      }
      asyncEmit(eventName, data) {
         return new Promise(function (resolve, reject) {
@@ -158,10 +158,9 @@ class onlineMenu {
       }
   
     async init(container) {
-        console.log(localStorage.getItem('PlayerNumber'),'PLAYERRRNUMBERRRRR')
+        
         let player = localStorage.getItem('PlayerNumber')
-        console.log(this.caster)
-        console.log(this.enemy)
+      
        
             if(this.caster.player == this.PlayNum ){
                 this.showMenu(container)

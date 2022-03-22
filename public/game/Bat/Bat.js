@@ -3,14 +3,10 @@ class BatOnline{
     constructor({PData,onComplete,socket, PlayNum,room}){
         
         var datas = localStorage.getItem('PlayerData');
-        console.log(localStorage.getItem('PlayerNumber'),'PLAYERRRNUMBERRRRR')
-        console.log(JSON.parse(datas),'PPPPPPPP')
-        console.log(PData)
-        console.log(onComplete)
+       
         this.Playerdata = JSON.parse(datas)
         this.nfts = JSON.parse(localStorage.getItem('nfts'));
-        console.log(this.Playerdata[0].data)
-        console.log(this.Playerdata,'PPPPP')
+     
         this.onComplete =onComplete
         this.socket = socket
         this.PlayNum = PlayNum
@@ -45,7 +41,7 @@ class BatOnline{
             enemy: null, //"enemy1",
           }
        //  Dynamically add the Player team
-       console.log(this.Playerdata,'PPPPPPPPPPPPPLLLAAAAYYERR')
+      
     this.Playerdata[0].data.lineup.forEach(id => {
         this.addCombatant(id, "player", this.Playerdata[0].data.pizzas[id])
       });
@@ -58,11 +54,9 @@ class BatOnline{
    
 
     addCombatant(id, team, config) {
-       console.log(window.Pizzas,'PIZZAQ')
-       console.log(config,'CONGIGGGGG')
+      
        let pp = this.nfts[0].nfts
-       console.log(localStorage.getItem('nfts'))
-       console.log(pp,'NFTTTTTTSSSSS')
+      
         this.combatants[id] = new Combatant({
           ...pp[config.pizzaId],
           ...config,
@@ -73,12 +67,10 @@ class BatOnline{
   
         //Populate first active pizza
   
-        console.log(this)
         this.activeCombatants[team] = this.activeCombatants[team] || id
     }
     addCombatantE(id, team, config) {
-       console.log(window.Pizzas,'PIZZAQ')
-       console.log(config,'CONGIGGGGG')
+     
        let pp = this.nfts[1].nfts
         this.combatants[id] = new Combatant({
           ...pp[config.pizzaId],
@@ -90,7 +82,6 @@ class BatOnline{
   
         //Populate first active pizza
   
-        console.log(this)
         this.activeCombatants[team] = this.activeCombatants[team] || id
     }
     
@@ -144,7 +135,7 @@ class BatOnline{
             room:this.room,
             onNewEvent : event =>{
                 return new Promise(resolve =>{
-                    console.log(resolve)
+                   
                     const battleEveent = new EventOnline(event, this,this.socket,this.PlayNum,this.room)
                     battleEveent.init(resolve)
                 })

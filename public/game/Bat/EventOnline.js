@@ -1,6 +1,6 @@
 class EventOnline {
     constructor(event, battle,socket,PlayNum,room){
-        console.log(socket)
+       
         this.event = event
         this.battle = battle
         this.socket = socket
@@ -25,10 +25,9 @@ class EventOnline {
       }
     async stateChange(resolve) {
         const {caster, target, damage, recover, status, action} = this.event;
-        console.log(this.event,'EVVVVVVVEEEEEEENNNTTTTTT')
+       
         let who = this.event.onCaster ? caster : target;
-        console.log(who,'WHOOOOOOOOOOOOOOOO ?????????')
-        console.log(recover,'RECCCCCCCOOOOVER')
+       
         if (damage) {
           //modify the target to have less HP
           target.update({
@@ -40,7 +39,7 @@ class EventOnline {
         }
     
         if (recover) {
-            console.log(who,'whoooo ???')
+            
           let newHp = who.hp + recover;
           if (newHp > who.maxHp) {
             newHp = who.maxHp;
@@ -79,7 +78,7 @@ class EventOnline {
       }
       
       submissionMenu(resolve) {
-          console.log(this.event,'EVEEEEEEEEEEEEENNNNNNNNT')
+         
         const menu = new onlineMenu({
 
           caster: this.event.caster,
