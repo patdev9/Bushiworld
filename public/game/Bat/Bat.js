@@ -57,7 +57,7 @@ class BatOnline{
       
        let pp = this.nfts[0].nfts
       
-        this.combatants[id] = new Combatant({
+        this.combatants[id] = new CombatantOnline({
           ...pp[config.pizzaId],
           ...config,
           team,

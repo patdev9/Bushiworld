@@ -15,12 +15,12 @@ class CombatantOnline {
   
       get xpPercent() {
         
-        return this.xp / this.maxXp * 100;
+        let energy = this.xp / this.maxXp * 100;
+        return energy > 0 ? energy : 0;
       }
 
-      get isActive(){
-          
-          return this.battle?.activeCombatants[this.team] === this.id
+      get isActive() {
+        return this.battle?.activeCombatants[this.team] === this.id;
       }
   
     createElement() {
@@ -69,6 +69,8 @@ class CombatantOnline {
   
     getPostEvents() {
         if (this.status?.type === "saucy") {
+          console.log(this,'THIS')
+          console.log(this.status,'status')
           return [
             { type: "textMessage", text: "Feelin' saucy!" },
             { type: "stateChange", recover: 5, onCaster: true }

@@ -92,12 +92,12 @@ class Combatant {
         { type: "textMessage", text: `${this.name} flops over!` },
       ]
     }
-
     return originalEvents;
   }
 
   getPostEvents() {
     if (this.status?.type === "saucy") {
+      
       return [
         { type: "textMessage", text: "Feelin' saucy!" },
         { type: "stateChange", recover: 5, onCaster: true }
@@ -128,5 +128,4 @@ class Combatant {
     container.appendChild(this.pizzaElement);
     this.update();
   }
-
 }

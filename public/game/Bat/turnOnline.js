@@ -18,7 +18,17 @@ class TurnOnline{
         
         const enemyId = this.battle.activeCombatants[caster.team === "player" ? "enemy" : "player"]
         const enemy = this.battle.combatants[enemyId];
- 
+      console.log(caster)
+      if (caster.xp < 100) {
+            
+        let newXp = caster.xp + 20;
+        if (newXp > caster.maxXp) {
+          newXp = who.maxHp;
+        }
+        caster.update({
+          xp: newXp
+        })
+      }
        
         const submission = await this.onNewEvent({
             type: "submissionMenu",

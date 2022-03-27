@@ -46,14 +46,29 @@ class onlineMenu {
           ],
           attacks: [
             ...this.caster.actions.map(key => {
+              console.log(key)
               const action = Actions[key];
-              return {
-                label: action.name,
-                description: action.description,
-                handler: () => {
-                  this.menuSubmit(action)
+              console.log(action,'actions')
+              if(this.caster.xp <= action.energy){
+                return {
+                  label: action.name,
+                  description: action.description,
+                  disabled:true,
+                  handler: () => {
+                    this.menuSubmit(action)
+                  }
                 }
               }
+              else{
+                return {
+                  label: action.name,
+                  description: action.description,
+                  handler: () => {
+                    this.menuSubmit(action)
+                  }
+                }
+              }
+             
             }),
             backOption
           ],

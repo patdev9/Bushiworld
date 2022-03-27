@@ -2,496 +2,551 @@ window.Actions = {
   ATTACK1: {
     name: "Slash",
     description: "Take out your weapon and slash your opponent.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'normal', energy:10,  damage: 13 }
     ]
   },
   ATTACK2: {
     name: "Stab",
     description: "Stab your opponent with a poison-soaked blade.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 10 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 10 }
     ]
   },
   ATTACK3: {
     name: "Sleep dart",
     description: "Send your opponent straight to his bed.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 5 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 5 }
     ]
   },
   ATTACK4: {
     name: "Furious Attack",
     description: "Attack in quick successions.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 12 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 12 }
     ]
   },
   ATTACK5: {
     name: "Quick Strike",
     description: "A strike that lands before others.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 10 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 10 }
     ]
   },
   ATTACK6: {
     name: "Rugpull",
     description: "Funds are not SAFU.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15}
+      { type: "stateChange", skill:'normal', energy:10, damage: 15}
     ]
   },
   ATTACK7: {
     name: "Bull Flag",
     description: "Uppercut with Bullish conviction.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 15 }
     ]
   },
   ATTACK8: {
     name: "Bear Market Swipe",
     description: "Buy the dip.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 9 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 9 }
     ]
   },
   ATTACK9: {
     name: "Floor Sweep",
     description: "Sweep the Floor.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 7 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 7 }
     ]
   },
   ATTACK10: {
     name: "Shill",
     description: "To the moon.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 7 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 7 }
     ]
   },
   ATTACK11: {
     name: "Paperhands",
     description: "Take out a napkin and hit smack your opponent with it.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 2 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 2 }
     ]
   },
   ATTACK12: {
     name: "Diamondhands",
     description: "A strong attack with the fierce power of diamonds behind it.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 17 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 17 }
     ]
   },
   ATTACK13: {
     name: "HODL",
     description: "A mighty attack using memecoins.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 12 }
+      { type: "stateChange", status:{type:'normal', energy: 10}, damage: 12 }
     ]
   },
   ATTACK14: {
     name: "MAD Strike",
     description: "Originally from the burrow, this fighting technique is super effective against FUD.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 13 }
     ]
   },
   ATTACK15: {
     name: "Headbutt",
     description: "Hit your opponent with your huge forehead.",
+    energy:10,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 8 }
+      { type: "stateChange", skill:'normal', energy:10, damage: 8 }
     ]
   },
   FIRE_ATTACK1: {
     name: "Kindle",
     description: "A weak fire attack.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 6 }
+      { type: "stateChange", skill:'fire', energy:20, damage: 6 }
     ]
   },
   FIRE_ATTACK2: {
     name: "Fire Fist",
     description: "A fist imbued with fire.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 10 }
+      { type: "stateChange", skill:'fire', energy:20, damage: 10 }
     ]
   },
   FIRE_ATTACK3: {
     name: "Dragon Breath",
     description: "The warrior channels his inner dragon and exhales.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'fire', energy:20, damage: 13 }
     ]
   },
   FIRE_ATTACK4: {
     name: "Fire Storm",
     description: "A fiery blaze.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15 }
+      { type: "stateChange", skill:'fire', energy:20, damage: 15 }
     ]
   },
   FIRE_ATTACK5: {
     name: "Inner Fire",
     description: "Become pure flame.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 17 }
+      { type: "stateChange", skill:'fire', energy:20, damage: 17 }
     ]
   },
   MOON_ATTACK1: {
     name: "Meteor Strike",
     description: "Harness the power of the Lunar Eclipse.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15 }
+      { type: "stateChange", skill:'moon', energy:20, damage: 15 }
     ]
   },
   MOON_ATTACK2: {
     name: "Lunar Eclipse",
     description: "",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'moon', energy:20, damage: 13 }
     ]
   },
   MOON_ATTACK3: {
     name: "Blood Moon",
     description: "A blood moon rises.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 10 }
+      { type: "stateChange", skill:'moon', energy:20, damage: 10 }
     ]
   },
   MOON_ATTACK4: {
     name: "Luna",
     description: "Moonlight strikes the opponent.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'moon', energy:20, damage: 13 }
     ]
   },
   MOON_ATTACK5: {
     name: "Moon fall",
     description: "Heavy moonlight strikes the opponent.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 16 }
+      { type: "stateChange", skill:'moon', energy:20, damage: 16 }
     ]
   },
   WATER_ATTACK1: {
     name: "Splash attack",
     description: "Throw a water bomb.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 4 }
+      { type: "stateChange", skill:'water', energy:20, damage: 4 }
     ]
   },
   WATER_ATTACK2: {
     name: "Submerged",
     description: "Submerge your opponent in water.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 9 }
+      { type: "stateChange", skill:'water', energy:20, damage: 9 }
     ]
   },
   WATER_ATTACK3: {
     name: "Water Sword",
     description: "Imbue your sword with the power of water.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'water', energy:20, damage: 13 }
     ]
   },
   WATER_ATTACK4: {
     name: "Scatter shot",
     description: "Form icicles and throw them.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15 }
+      { type: "stateChange", skill:'water', energy:20, damage: 15 }
     ]
   },
   WATER_ATTACK5: {
     name: "Tsunami",
     description: "A colossal tidal wave.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15 }
+      { type: "stateChange", skill:'water', energy:20, damage: 15 }
     ]
   },
   THUNDER_ATTACK1: {
     name: "Electric shock",
     description: "Electricity flows through you.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 12 }
+      { type: "stateChange", skill:'thunder', energy:20, damage: 12 }
     ]
   },
   THUNDER_ATTACK2: {
     name: "Electrified Surface",
     description: "The surface below you becomes electrified.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 8 }
+      { type: "stateChange", skill:'thunder', energy:20, damage: 8 }
     ]
   },
   THUNDER_ATTACK3: {
     name: "Precise Lighting",
     description: "Pinpoint accurate Lighting strike.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'thunder', energy:20, damage: 13 }
     ]
   },
   THUNDER_ATTACK4: {
     name: "High Voltage",
     description: "Overload to cause extra damage.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 17 }
+      { type: "stateChange", skill:'thunder', energy:20, damage: 17 }
     ]
   },
   THUNDER_ATTACK5: {
     name: "Thunder Slap",
     description: "Weak thunder attack.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 9 }
+      { type: "stateChange", skill:'thunder', energy:20, damage: 9 }
     ]
   },
   WIND_ATTACK1: {
     name: "Razor Wind",
     description: "A razor sharp wind.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 7 }
+      { type: "stateChange", skill:'wind', energy:20, damage: 7 }
     ]
   },
   WIND_ATTACK2: {
     name: "Tornado Blast",
     description: "Tornado comes crashing down.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 13 }
+      { type: "stateChange", skill:'wind', energy:20, damage: 13 }
     ]
   },
   WIND_ATTACK3: {
     name: "Emperor’s Breath",
     description: "The Emperor’s Will flows through you.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 18 }
+      { type: "stateChange", skill:'wind', energy:20, damage: 18 }
     ]
   },
   WIND_ATTACK4: {
     name: "Fleeting wind",
     description: "A mischevious wind attack.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 15 }
+      { type: "stateChange", skill:'wind', energy:20, damage: 15 }
     ]
   },
   WIND_ATTACK5: {
     name: "Coup de Burst",
     description: "A dangerous attack that combines technology and the power of the wind.",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 17 }
+      { type: "stateChange", skill:'wind', energy:20, damage: 17 }
     ]
   },
   SPECIAL_WIND_ATTACK1: {
     name: "Air Exoskeleton",
     description: "Surround yourself with a armor of wind.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", status: { type: "saucy", expiresIn: 1 } }
+      { type: "stateChange", skill:'wind', energy:40, damage: 18 }
     ]
   },
   SPECIAL_WIND_ATTACK2: {
     name: "Sonic Kick",
     description: "Use the wind to catch flight come crashing down on your enemy at sonic.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 18 }
+      { type: "stateChange", skill:'wind', energy:40, damage: 18 }
     ]
   },
   SPECIAL_WIND_ATTACK3: {
     name: "Airbendind",
     description: "Aerokinetic ability to control and manipulate air.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 22 }
+      { type: "stateChange", skill:'wind', energy:40, damage: 22 }
     ]
   },
   SPECIAL_FIRE_ATTACK1: {
     name: "Ash Resurrection",
     description: "Heal from the ashes of battle.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", status: { type: "saucy", expiresIn: 1 }  }
+      { type: "stateChange", skill:'fire', energy:40, damage: 18 }
     ]
   },
   SPECIAL_FIRE_ATTACK2: {
     name: "Flame Mimicry",
     description: "Generate a flaming doppelgänger to fight by your side.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 21 }
+      { type: "stateChange", skill:'fire', energy:40, damage: 21 }
     ]
   },
   SPECIAL_FIRE_ATTACK3: {
     name: "Super Nova",
     description: "Transform into a blaze as hot as the sun.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 22 }
+      { type: "stateChange", skill:'fire', energy:40, damage: 22 }
     ]
   },
   SPECIAL_WATER_ATTACK1: {
     name: "Water Core",
     description: "Manipulate the water in your body to heal yourself.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", status: { type: "saucy", expiresIn: 1 }  }
+      { type: "stateChange", skill:'water', energy:40, damage: 18 }
     ]
   },
   SPECIAL_WATER_ATTACK2: {
     name: "Hydro Surf",
     description: "Create a wave and surf dash around the enemy relentlessly.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 17 }
+      { type: "stateChange", skill:'water', energy:40, damage: 17 }
     ]
   },
   SPECIAL_WATER_ATTACK3: {
     name: "Ice-Cutioner",
     description: "Freeze your enemy to the core.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 22 }
+      { type: "stateChange", skill:'water', energy:40, damage: 22 }
     ]
   },
   SPECIAL_MOON_ATTACK1: {
     name: "Susanô",
     description: "Awaken the power of Mangekyou Sharingan.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 23 }
+      { type: "stateChange", skill:'moon', energy:40, damage: 23 }
     ]
   },
   SPECIAL_MOON_ATTACK2: {
     name: "Full moon",
     description: "Use the power of the full moon to heal.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", status: { type: "saucy", expiresIn: 1 }  }
+      { type: "stateChange", skill:'moon', energy:40, damage: 18  }
     ]
   },
   SPECIAL_MOON_ATTACK3: {
     name: "Moon gate",
     description: "Release warriors from another realm to aid you.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 17 }
+      { type: "stateChange", skill:'moon', energy:40, damage: 17 }
     ]
   },
   SPECIAL_THUNDER_ATTACK1: {
     name: "Thunder Dome",
     description: "Generate a thunder dome around the battlefield, lightning strikes periodically at the enemy.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 21 }
+      { type: "stateChange", skill:'thunder', energy:40, damage: 21 }
     ]
   },
   SPECIAL_THUNDER_ATTACK2: {
     name: "Seismic Storm",
     description: "Manipulate the loudest thunderstorm that vibrates the earth.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 23 }
+      { type: "stateChange", skill:'thunder', energy:40, damage: 23 }
     ]
   },
   SPECIAL_THUNDER_ATTACK3: {
     name: "Turbo Shock",
     description: "A direct electric shot to your heart, hopefully it doesn’t explode.",
+    energy:40,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
       { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 23  }
+      { type: "stateChange", skill:'thunder', energy:40, damage: 23  }
     ]
   },
   // ATTACK16: {
@@ -506,10 +561,11 @@ window.Actions = {
   damage1: {
     name: "Rug pull!",
     description: "NOT SAFU",
+    energy:20,
     success: [
       { type: "textMessage", text: "{CASTER} uses {ACTION}!"},
        { type: "animation", animation: "spin"},
-      { type: "stateChange", damage: 10}
+      { type: "stateChange",energy:20, damage: 50}
     ]
   },
   damage2: {

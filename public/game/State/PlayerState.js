@@ -3,14 +3,13 @@ class PlayerState {
     this.pizzas = {
       "p1": {
         pizzaId: "s001",
-        hp: 50,
-        maxHp: 50,
-        xp: 0,
+        hp: 80,
+        maxHp: 80,
+        xp: 50,
         maxXp: 100,
         level: 1,
         status: null,
       },
-    
     }
     this.lineup = ["p1"];
     this.items = [
@@ -26,9 +25,9 @@ class PlayerState {
     const newId = `p${Date.now()}`+Math.floor(Math.random() * 99999);
     this.pizzas[newId] = {
       pizzaId,
-      hp: 50,
-      maxHp: 50,
-      xp: 0,
+      hp: 80,
+      maxHp: 80,
+      xp: 50,
       maxXp: 100,
       level: 1,
       status: null,

@@ -1,6 +1,6 @@
 class EventOnline {
     constructor(event, battle,socket,PlayNum,room){
-       
+
         this.event = event
         this.battle = battle
         this.socket = socket
@@ -24,15 +24,47 @@ class EventOnline {
         message.init( this.battle.element )
       }
     async stateChange(resolve) {
-        const {caster, target, damage, recover, status, action} = this.event;
-       
+        let {caster, target, damage, recover, status,skill,energy, action} = this.event;
+       console.log(this.event)
         let who = this.event.onCaster ? caster : target;
-       
+        caster.update({
+          xp: caster.xp - energy
+        })
         if (damage) {
           //modify the target to have less HP
-          target.update({
-            hp: target.hp - damage
-          })
+          if(skill == 'water' && target.type == 'fire'){
+            damage = damage * 1.1
+          }
+          if(skill == 'moon' && target.type == 'thunder'){
+            damage = damage * 1.1
+          }
+          if(skill == 'wind'){
+            damage = damage * 1.1
+          }
+          if(skill == 'fire' && target.type == 'moon'){
+            damage = damage * 1.1
+          }
+          if(skill == 'thunder' && target.type == 'water'){
+            damage = damage * 1.1
+          }
+          if(skill == 'fire' && target.type == 'water'){
+            damage = damage * 0.9
+          }
+          if(skill == 'thunder' && target.type == 'moon'){
+            damage = damage * 0.9
+          }
+          if(skill == 'moon' && target.type == 'fire'){
+            damage = damage * 0.9
+          }
+          if(skill == 'water' && target.type == 'thunder'){
+            damage = damage * 1.1
+          }
+          
+            target.update({
+              hp: target.hp - damage
+            })
+          
+         
           
           //start blinking
           target.pizzaElement.classList.add("battle-damage-blink");
@@ -54,8 +86,6 @@ class EventOnline {
               status: {...status}
             })
           }
-
-
 
           if (status === null) {
             who.update({
