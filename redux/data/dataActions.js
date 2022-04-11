@@ -58,9 +58,9 @@ export const fetchData = () => {
       const tokenMetadata = await fetch(jsondata[i]).then((response) => response.json())
      
       let d
-      await fetch(`http://127.0.0.1:3333/bushi/${tokenMetadata.name.slice(18,23)}`).then((res) => {return res.json()}).then(data=>d =(data[0]))
-    
-       bushis.push(d)
+   await fetch(`http://127.0.0.1:3333/bushi/${tokenMetadata.name.slice(18,23)}`).then((res) => {return res.json()}).then(data=>d =(data[0]))
+     
+       bushis.push(p)
      
       if (tokenMetadata.image.startsWith("ipfs://")) {
           tokenMetadata.image = `https://ipfs.io/ipfs/${tokenMetadata.image.split("ipfs://")[1]}`

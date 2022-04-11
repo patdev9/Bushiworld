@@ -6,6 +6,7 @@ import { fetchData } from "../../redux/data/dataActions";
 import { connect, connectDefi,connectW } from "../../redux/blockchain/blockchainActions";
 import Script from "next/script";
 import { io } from "socket.io-client";
+import { render } from "react-dom";
 
 
 
@@ -13,10 +14,12 @@ const Homepage = () => {
   let startButton;
   let infoDisplay;
   let input;
+  let Roomlist 
   if (typeof window !== "undefined") {
     // Client-side-only code
      startButton = window.document.querySelector('#start')
       infoDisplay = document.querySelector('#info')
+      Roomlist = document.querySelector('#RoomL')
      input = document.getElementById('input');
   }
  
@@ -24,7 +27,7 @@ const Homepage = () => {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   let Playerdata;
-   let bbonline = true
+  let bbonline = true
   let PlayNum = 0
   let ready = 0
   let enemyReady = 0
@@ -49,7 +52,6 @@ const Homepage = () => {
     MARKETPLACE: "",
     MARKETPLACE_LINK: "",
     SHOW_BACKGROUND: false,
-   
   });
 
   
@@ -58,9 +60,7 @@ const Homepage = () => {
    
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
       dispatch(fetchData(blockchain.account));
-      
     }
-    
     
   };
   const getConfig = async () => {
@@ -73,13 +73,40 @@ const Homepage = () => {
     const config = await configResponse.json();
     SET_CONFIG(config);
   };
+  
+  let getRoom = async ()=>{
+    console.log("lkk")
+    let p
+    await fetch('http://127.0.0.1:3333/getrooms').then((res) => {return res.json()}).then(res=>p = res)
+    console.log(p)
+    Roomlist.innerHTML = p.map(function(item){
+      return(
+        <div key={item.id} className="parent">
+        <div className="container-room">
+          <div className="name-room">{item.room}</div>
+          <div className="bet-room">Bet : {item.betPlayerA}</div>
+        </div>
+        <div className="container-bet">
+          <div>{item.player} /2</div>
+        </div>
+        <div className="container-player">
+          <button onClick={()=> OnGame(item.room)}>Join</button>
+        </div>
+      </div>
+      )
+    })
 
-  useEffect(() => {
+    console.log(Roomlist, 'RRRRRRRRR')
+  }
+
+  useEffect(async () => {
+    console.log('papjap')
     getConfig();
   }, []);
 
   useEffect(() => {
     getData();
+    console.log(Roomlist,'ROOLE')
     
   },  [blockchain.account]);
   const getDatanfts = async () =>{
@@ -91,20 +118,28 @@ const Homepage = () => {
     //   let pat 
     //   //await fetch(`http://localhost:5555/bushi/${data.bushis[i].name.slice(18,23)}`).then((res) =>pat =res.json())     
     // }
+    var myHeaders = new Headers();
+myHeaders.append('Accept', '*/*');
+myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM0NTY=');
+    let bushis;
+    
+    await fetch(`http://127.0.0.1:3333/bushi/${blockchain.account}`
+  ).then((res) => {return res.json()}).then(res=>bushis = res)
    
+    console.log(bushis)
     window.playerState.pizzas = {}
      window.playerState.lineup = []
-    for(let i = 0;i < data.bushis.length;i++){
-      let tt = data.bushis[i].attr.slice(18,23)
-      let type = data.bushis[i].type.name
+    for(let i = 0;i < bushis.length;i++){
+      let tt = bushis[i].attr.slice(18,23)
+      let type = bushis[i].type.name
     
       let pp = {
-        name: data.bushis[i].name,
-        description: data.bushis[i].desc,
+        name: bushis[i].name,
+        description: bushis[i].desc,
         type: type,
-        src:data.bushis[i].src ,
+        src:bushis[i].src ,
         icon: `/images/icons/${type}.png`,
-        actions: [ data.bushis[i].nftskill.basic.name, data.bushis[i].nftskill.typeskill.name , data.bushis[i].nftskill.special.name ],
+        actions: [ bushis[i].nftskill.basic.name, bushis[i].nftskill.typeskill.name , bushis[i].nftskill.special.name ],
       }
      
       window.Pizzas[tt] = pp
@@ -138,19 +173,15 @@ const Homepage = () => {
       }
       if(PlayNum == 1) currentPlayer ="enemy"
       socket.emit('check-players',room)
-      
     })
     socket.on('data',(data,nft)=>{
-    
       Playerdata = data
       localStorage.setItem('PlayerData', JSON.stringify(data));
       localStorage.setItem('nfts', JSON.stringify(nft));
     })
     start.addEventListener('click',() =>{
-      
      socket.emit('player-ready',room)
      playerReady(PlayNum)
-    
      if(!ready){
       socket.emit('player-ready',room)
       ready = true
@@ -158,7 +189,6 @@ const Homepage = () => {
     if(ready && enemyReady ) playGameMulti(socket, Playerdata,room)
     })
     socket.on('player-connection',(num,datas) => {
-    
       playerConnectedOrDisconnected(num)
     })
 
@@ -193,19 +223,22 @@ const Homepage = () => {
         document.querySelector(`${player} .connected span`).classList.toggle('green')
         if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
       }
-     
     }
-
+    
   }
-  const OnGame = async  ()=>{
+ 
+
+ const getRooms = ()=>{
+  fetch()
+ }
+
+
+  const OnGame = async  (room)=>{
     const socket = io('http://127.0.0.1:3333')
-    let room = "ASS"
     let wallet = blockchain.account
     socket.emit('join',room,wallet);
     let data = window.playerState 
     let nfts = window.Pizzas
-  
-    
    
     socket.emit('player-data', data,nfts,room,wallet)
     socket.on('player-number',(num,datas, )=> {
@@ -219,11 +252,9 @@ const Homepage = () => {
       }
       if(PlayNum == 1) currentPlayer ="enemy"
       socket.emit('check-players',room)
-     
     })
 
     socket.on('data',(data,nft)=>{
-     
       Playerdata = data
       localStorage.setItem('PlayerData', JSON.stringify(data));
       localStorage.setItem('nfts', JSON.stringify(nft));
@@ -242,8 +273,6 @@ const Homepage = () => {
     })
   
     socket.on('player-connection',(num,datas) => {
-    
-     
       console.log(`Player number ${num} has connected or desconnected`)
       playerConnectedOrDisconnected(num)
     })
@@ -273,7 +302,6 @@ const Homepage = () => {
     }
 
     function playerConnectedOrDisconnected(num) {
-     
       let player = `.p${parseInt(num) +1}`
       document.querySelector(`${player} .connected span`).classList.toggle('green')
       if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
@@ -305,64 +333,86 @@ const Homepage = () => {
         if(!a){
           batOnline.init(document.querySelector(".game-container"));
         }
-    
-   
   }
 
-  let menu
-  
-  if(bbonline == true){
-    menu = <>
-      <div  id="info"></div>
-      <input id="input"  />
-   <button onClick={()=>{  
-     OnlineGame()
 
-   }} > Matchmaking</button>
-   <button onClick={()=>{  
-     OnGame()
 
-   }} > Matchmaking2</button>
-   <button id="start" > BatOnline</button>
-   <div className="player p1"> player 1
-     <div className="connected">Connected  <span></span>
-       
-     </div>
-     <div className="ready">Ready <span></span></div>
-   </div>
-   <div className="player p2"> player 2
-     <div className="connected">Connected <span></span>
-       <div className="ready">Ready <span></span></div>
-     </div>
-     <div className="ready"></div>
-   </div> 
-    </>
-  }
-  if(bbonline = false) {
-    menu = ""
-  }
-
+  // function displayOnlineGame() {
+  //   const x = document.getElementById("container-online-game");
+  //   if (document.getElementById("container-online-game") && x.style.display === "block") {
+  //     x.style.display = "none";
+  //   } else {
+  //     x.style.display = "block";
+  //   }
+  // }
   function displayOnlineGame() {
-    const x = document.getElementById("container-online-game");
-    if (document.getElementById("container-online-game") && x.style.display === "block") {
-      x.style.display = "none";
-    } else {
+    const x = document.getElementById("container-rooms");
+    const z = document.getElementById("main-content-content")
+    if (document.getElementById("container-rooms")) {
       x.style.display = "block";
+      z.style.overflow = "hidden";
+    }
+  }
+  function cancelOnlineGame() {
+    const x = document.getElementById("container-rooms");
+    if (document.getElementById("container-rooms")) {
+      x.style.display = "none";
+
     }
   }
 
+ let rooms = [
+    {
+      id:1,
+      name:"kev",
+      bet:2,
+      player:1
+    },
+    {
+      id:2,
+      name:"kev",
+      bet:2,
+      player:1
+    },
+    {
+      id:3,
+      name:"kev",
+      bet:2,
+    },
+  ]
+
+  // Roomlist= rooms.map(function(item){
+  //   return(
+  //     <div key={item.id} className="parent">
+  //     <div className="container-room">
+  //       <div className="name-room">{item.name}</div>
+  //       <div className="bet-room">Bet : {item.bet}</div>
+  //     </div>
+  //     <div className="container-bet">
+  //       <div>{item.player} /2</div>
+  //     </div>
+  //     <div className="container-player">
+  //       <button onClick={()=> OnGame(item.name)}>Join</button>
+  //     </div>
+  //   </div>
+  //   )
+  // })
+
   
+
+  //let p = new EventSource('http://127.0.0.1:3333/rooms')
+//   p.addEventListener("change", function (event) { 
+//     console.log(event.data); 
+//     //traitement à effectuer 
+// }, false);
+
+
  
   
  
   return (
     <div className="main-content" id="main-content-content">
-
-
-
- 
    
-
  {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   
@@ -411,17 +461,68 @@ const Homepage = () => {
                     ) : null}
                   </div>
                 ) : ( 
-                 
+                
                   <div className="main-content">
+        <div className="container-rooms" id="container-rooms">
+        <div className="rooms-title">ROOMS</div>
+        <div className="container-rooms-join-create">
+        <input  id="input" className="search-bar-rooms"></input>
+        <button onClick={()=>OnlineGame()} className="join-room-rooms">Create game</button>
+        <button id="start"> Ready</button>
+        </div>
+        <div  className="big-container-room">
+        <div className="online-game-container">
+                        <div className="player p1">
+                          {" "}
+                          player 1
+                          <div className="connected">
+                            Connected <span></span>
+                          </div>
+                          <div className="ready">
+                            Ready <span></span>
+                          </div>
+                        </div>
+                        <div
+                          className=" justify-content-center"
+                          id="input-game-session"
+                        >
+                          <div id="info"></div>
+        
+                        
+                       
+                        </div>
+                        <div className="row  justify-content-center">
+                          <div className="player p2">
+                            {" "}
+                            player 2
+                            <div className="connected">
+                              Connected <span></span>
+                              <div className="ready">
+                                Ready <span></span>
+                              </div>
+                            </div>
+                            <div className="ready"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="RoomL" ref={Roomlist}> {Roomlist} </div>
+        </div>
+           <div className="container-cancel-button-bushi">
+           <button id="cancel-button-bushi" onClick={cancelOnlineGame}>Cancel</button>
+             </div>
+      </div>
                   <div className="container-buttons-online">
                     <div className="container-button-online-load">
                       <div className="container-load-nft">
                         <button onClick={() => getDatanfts()}> Load NFTS</button>
+                        <button onClick={() => getRoom()}> GET</button>
                       </div>
                       <div className="container-button-online-game">
                         <button onClick={displayOnlineGame} className="text-center">
                           Online Game
                         </button>
+
+                        
                       </div>
                     </div>
                     <div className="container-online-game" id="container-online-game">
@@ -445,7 +546,7 @@ const Homepage = () => {
                           <input
                             placeholder="enter room name.."
                             className="mr-10"
-                            id="input"
+                           
                           />
         
                           <button
@@ -463,7 +564,7 @@ const Homepage = () => {
         
            }} > Matchmaking2</button> */}
         
-                          <button id="start"> Ready</button>
+                          {/* <button id="start"> Ready</button> */}
                         </div>
                         <div className="row  justify-content-center">
                           <div className="player p2">
