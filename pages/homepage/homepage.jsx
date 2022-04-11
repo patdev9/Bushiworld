@@ -7,6 +7,7 @@ import { connect, connectDefi,connectW } from "../../redux/blockchain/blockchain
 import Script from "next/script";
 import { io } from "socket.io-client";
 import { render } from "react-dom";
+import { compose } from "redux";
 
 
 
@@ -14,12 +15,12 @@ const Homepage = () => {
   let startButton;
   let infoDisplay;
   let input;
-  let Roomlist 
+  let [Roomlist, setRoomList] = useState(undefined);
   if (typeof window !== "undefined") {
     // Client-side-only code
      startButton = window.document.querySelector('#start')
       infoDisplay = document.querySelector('#info')
-      Roomlist = document.querySelector('#RoomL')
+     // Roomlist = document.querySelector('#RoomL')
      input = document.getElementById('input');
   }
  
@@ -78,10 +79,13 @@ const Homepage = () => {
     console.log("lkk")
     let p
     await fetch('http://127.0.0.1:3333/getrooms').then((res) => {return res.json()}).then(res=>p = res)
-    console.log(p)
-    Roomlist.innerHTML = p.map(function(item){
-      return(
-        <div key={item.id} className="parent">
+    console.log("xx")
+    console.log(p);
+    p.map((item)=>{ console.log(item.room) });
+    setRoomList(await p.map((item)=>{
+      return (
+      <li>
+        <div>
         <div className="container-room">
           <div className="name-room">{item.room}</div>
           <div className="bet-room">Bet : {item.betPlayerA}</div>
@@ -93,9 +97,9 @@ const Homepage = () => {
           <button onClick={()=> OnGame(item.room)}>Join</button>
         </div>
       </div>
+      </li>
       )
-    })
-
+    }));
     console.log(Roomlist, 'RRRRRRRRR')
   }
 
@@ -103,6 +107,10 @@ const Homepage = () => {
     console.log('papjap')
     getConfig();
   }, []);
+
+  useEffect(async () => {
+    console.log("7")
+  }, [Roomlist]);
 
   useEffect(() => {
     getData();
@@ -505,7 +513,7 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
                           </div>
                         </div>
                       </div>
-                      <div id="RoomL" ref={Roomlist}> {Roomlist} </div>
+                      <div> {Roomlist} </div>
         </div>
            <div className="container-cancel-button-bushi">
            <button id="cancel-button-bushi" onClick={cancelOnlineGame}>Cancel</button>
