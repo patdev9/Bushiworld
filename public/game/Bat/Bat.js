@@ -1,12 +1,12 @@
 class BatOnline{
     
-    constructor({PData,onComplete,socket, PlayNum,room}){
+    constructor({PData,onComplete,socket, PlayNum,room,wallet}){
         
         var datas = localStorage.getItem('PlayerData');
        
         this.Playerdata = JSON.parse(datas)
         this.nfts = JSON.parse(localStorage.getItem('nfts'));
-     
+        this.wallet = wallet
         this.onComplete =onComplete
         this.socket = socket
         this.PlayNum = PlayNum
@@ -41,28 +41,28 @@ class BatOnline{
             enemy: null, //"enemy1",
           }
        //  Dynamically add the Player team
-      
+      console.log(this.PlayNum,this.wallet,'PÄP¨PPAPAAPAPAPAPAPAPAPAPAPP')
     this.Playerdata[0].data.lineup.forEach(id => {
-        this.addCombatant(id, "player", this.Playerdata[0].data.pizzas[id])
+        this.addCombatant(id, "player", this.Playerdata[0].data.pizzas[id],this.Playerdata[0].data.wallet,this.Playerdata[0].data.idgame)
       });
     this.Playerdata[1].data.lineup.forEach(id => {
-        this.addCombatantE(id+'E', "enemy", this.Playerdata[1].data.pizzas[id])
+        this.addCombatantE(id+'E', "enemy",this.Playerdata[1].data.pizzas[id],this.Playerdata[1].data.wallet,this.Playerdata[1].data.idgame)
       });
-      //Now the enemy team
-     
     }
    
 
-    addCombatant(id, team, config) {
+    addCombatant(id, team, config,wallet,idgame) {
       
        let pp = this.nfts[0].nfts
-      
+      console.log(wallet,'WALLLLLLLLEEEEETTTTTTT')
         this.combatants[id] = new CombatantOnline({
           ...pp[config.pizzaId],
           ...config,
           team,
           isPlayerControlled: team === "player",
           player:team == "player" ?0:1,
+          wallet:wallet,
+          idgame:idgame
         }, this)
   
         //Populate first active pizza
@@ -165,7 +165,7 @@ class BatOnline{
         
                 this.element.remove();
                 
-                this.onComplete(winner === "player");
+                this.onComplete(winner);
               }
         })
         this.turnCycle.init();

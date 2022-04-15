@@ -13,16 +13,26 @@ import { compose } from "redux";
 
 const Homepage = () => {
   let startButton;
+  let start
+  let startNormal
   let infoDisplay;
   let input;
+  let inputNormal;
   let [Roomlist, setRoomList] = useState(undefined);
+  let [RoomlistNormal, setRoomListNormal] = useState(undefined);
+  let [lastId,setlastId] = useState(undefined)
+  const [feedback, setFeedback] = useState(undefined);
+  const [Idbet, setIdbet] = useState(undefined);
   if (typeof window !== "undefined") {
     // Client-side-only code
-     startButton = window.document.querySelector('#start')
+     start = window.document.querySelector('#start')
+     startNormal = window.document.querySelector('#startNormal')
       infoDisplay = document.querySelector('#info')
      // Roomlist = document.querySelector('#RoomL')
      input = document.getElementById('input');
+     inputNormal = document.getElementById('inputNormal');
   }
+
  
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
@@ -75,17 +85,31 @@ const Homepage = () => {
     SET_CONFIG(config);
   };
   
+  
   let getRoom = async ()=>{
     console.log("lkk")
     let p
     await fetch('http://127.0.0.1:3333/getrooms').then((res) => {return res.json()}).then(res=>p = res)
-    console.log("xx")
-    console.log(p);
-    p.map((item)=>{ console.log(item.room) });
+    
+    setlastId(await p[p.length -1].id)
+   
+   
+      //   <div className="container-room">
+      //     <div className="name-room">Rooms name</div>
+      //     <div className="bet-room">Bet : 501,05</div>
+      //   </div>
+      //   <div className="container-bet">
+      //     <div>1/2</div>
+      //   </div>
+      //   <div className="container-player">
+      //     <div>Join</div>
+      //   </div>
+      // </div>
     setRoomList(await p.map((item)=>{
       return (
-      <li>
-        <div>
+      <>
+      
+          <div className="parent">
         <div className="container-room">
           <div className="name-room">{item.room}</div>
           <div className="bet-room">Bet : {item.betPlayerA}</div>
@@ -94,17 +118,115 @@ const Homepage = () => {
           <div>{item.player} /2</div>
         </div>
         <div className="container-player">
-          <button onClick={()=> OnGame(item.room)}>Join</button>
+          <button onClick={async()=> {
+            let id = item.id
+            
+            let cost = CONFIG.WEI_COST;
+            let gasLimit = CONFIG.GAS_LIMIT;
+            let totalCostWei = String(cost);
+            let totalGasLimit = String(gasLimit);
+             await blockchain.smartContract.methods.takebet(id).send({
+              to: CONFIG.CONTRACT_ADDRESS,
+              from: blockchain.account,
+              value: totalCostWei,
+              gasLimit: totalGasLimit,
+             })
+             let bushis = await blockchain.smartContract.methods.BushiBets(id).call()
+             if(bushis.playerA != '0x0000000000000000000000000000000000000000' && bushis.playerB != '0x0000000000000000000000000000000000000000') {
+              OnGame(item.room,item.id)
+             }
+           
+          }}>Join</button>
         </div>
-      </div>
-      </li>
+        </div>
+        
+        </>
       )
     }));
-    console.log(Roomlist, 'RRRRRRRRR')
+    
+  }
+  let getRoomNormal = async ()=>{
+    console.log("lkk")
+    let p
+    await fetch('http://127.0.0.1:3333/getroomsNormal').then((res) => {return res.json()}).then(res=>p = res)
+   
+    setlastId(await p[p.length -1].id)
+   
+    
+   
+      //   <div className="container-room">
+      //     <div className="name-room">Rooms name</div>
+      //     <div className="bet-room">Bet : 501,05</div>
+      //   </div>
+      //   <div className="container-bet">
+      //     <div>1/2</div>
+      //   </div>
+      //   <div className="container-player">
+      //     <div>Join</div>
+      //   </div>
+      // </div>
+      setRoomListNormal(await p.map((item)=>{
+      return (
+      <>
+      
+          <div className="parent">
+        <div className="container-room">
+          <div className="name-room">{item.room}</div>
+          <div className="bet-room">Bet : {item.betPlayerA}</div>
+        </div>
+        <div className="container-bet">
+          <div>{item.player} /2</div>
+        </div>
+        <div className="container-player">
+          <button onClick={async()=> {
+            let id = item.id
+            
+            // let cost = CONFIG.WEI_COST;
+            // let gasLimit = CONFIG.GAS_LIMIT;
+            // let totalCostWei = String(cost);
+            // let totalGasLimit = String(gasLimit);
+            //  await blockchain.smartContract.methods.takebet(id).send({
+            //   to: CONFIG.CONTRACT_ADDRESS,
+            //   from: blockchain.account,
+            //   value: totalCostWei,
+            //   gasLimit: totalGasLimit,
+            //  })
+            //  let bushis = await blockchain.smartContract.methods.BushiBets(id).call()
+            //  if(bushis.playerA != '0x0000000000000000000000000000000000000000' && bushis.playerB != '0x0000000000000000000000000000000000000000') {
+            //   OnGame(item.room,item.id)
+            //  }
+            OnGameNormal(item.room,item.id)
+          }}>Join</button>
+        </div>
+        </div>
+        
+        </>
+      )
+    }));
+    
+  }
+
+
+
+
+  let getRoomLastid = async ()=>{
+    console.log("lkk")
+    let p
+    await fetch('http://127.0.0.1:3333/lastroom').then((res) => {return res.json()}).then(res=>p = res)
+  
+    return p[0].id
+  }
+
+  let getRoomLastidNormal = async ()=>{
+    console.log("lkk")
+    let p
+    await fetch('http://127.0.0.1:3333/lastroomNormal').then((res) => {return res.json()}).then(res=>p = res)
+   
+    return p[0].id
   }
 
   useEffect(async () => {
-    console.log('papjap')
+   
     getConfig();
   }, []);
 
@@ -114,7 +236,7 @@ const Homepage = () => {
 
   useEffect(() => {
     getData();
-    console.log(Roomlist,'ROOLE')
+   
     
   },  [blockchain.account]);
   const getDatanfts = async () =>{
@@ -134,13 +256,12 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
     await fetch(`http://127.0.0.1:3333/bushi/${blockchain.account}`
   ).then((res) => {return res.json()}).then(res=>bushis = res)
    
-    console.log(bushis)
+    
     window.playerState.pizzas = {}
      window.playerState.lineup = []
     for(let i = 0;i < bushis.length;i++){
       let tt = bushis[i].attr.slice(18,23)
       let type = bushis[i].type.name
-    
       let pp = {
         name: bushis[i].name,
         description: bushis[i].desc,
@@ -149,24 +270,23 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
         icon: `/images/icons/${type}.png`,
         actions: [ bushis[i].nftskill.basic.name, bushis[i].nftskill.typeskill.name , bushis[i].nftskill.special.name ],
       }
-     
       window.Pizzas[tt] = pp
       window.playerState.addPizza(tt)
-     
     }
   }
 
   let i = 0
   
-  const OnlineGame = async  ()=>{
-    const socket = io('http://127.0.0.1:3333')
+  const OnlineGame = async  (idgame)=>{
+    const socket = io('http://127.0.0.1:3333/bet')
     let room = input.value
     
     let wallet = blockchain.account
     socket.emit('join',room,wallet);
     let data = window.playerState 
     let nfts = window.Pizzas
-
+    data['wallet'] = wallet
+    data['idgame'] = idgame
     console.log(wallet)
     socket.emit('player-data', data,nfts,room,wallet)
    
@@ -194,8 +314,11 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
       socket.emit('player-ready',room)
       ready = true
     }
-    if(ready && enemyReady ) playGameMulti(socket, Playerdata,room)
+    if(ready && enemyReady ) playGameMulti(socket, Playerdata,room,wallet)
+    console.log('11111111')
     })
+
+
     socket.on('player-connection',(num,datas) => {
       playerConnectedOrDisconnected(num)
     })
@@ -204,7 +327,7 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
       enemyReady = true
       playerReady(num)
       if (ready) {
-        playGameMulti(socket,Playerdata,room)
+        playGameMulti(socket,Playerdata,room,wallet)
         playerReady(num)
       }
     })
@@ -232,27 +355,25 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
         if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
       }
     }
-    
   }
  
 
- const getRooms = ()=>{
-  fetch()
- }
+ 
 
 
-  const OnGame = async  (room)=>{
-    const socket = io('http://127.0.0.1:3333')
+  const OnGame = async  (room,idgame)=>{
+    const socket = io('http://127.0.0.1:3333/bet')
     let wallet = blockchain.account
     socket.emit('join',room,wallet);
     let data = window.playerState 
     let nfts = window.Pizzas
-   
+    data['wallet'] = wallet
+    data['idgame'] = idgame
     socket.emit('player-data', data,nfts,room,wallet)
     socket.on('player-number',(num,datas, )=> {
     
       localStorage.setItem('PlayerNumber',num);
-    
+      console.log(num,'PPAPAPAPAPAP')
       if (num == -1){
         infoDisplay.innerHTML = "Sorry, the server is full"
       }else {
@@ -267,33 +388,6 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
       localStorage.setItem('PlayerData', JSON.stringify(data));
       localStorage.setItem('nfts', JSON.stringify(nft));
     })
-
-    start.addEventListener('click',() =>{
-      
-     socket.emit('player-ready',room)
-     playerReady(PlayNum)
-   
-     if(!ready){
-      socket.emit('player-ready',room)
-      ready = true
-    }
-    if(ready && enemyReady ) playGameMulti(socket, Playerdata,room)
-    })
-  
-    socket.on('player-connection',(num,datas) => {
-      console.log(`Player number ${num} has connected or desconnected`)
-      playerConnectedOrDisconnected(num)
-    })
-
-    socket.on('enemy-ready', num => {
-      enemyReady = true
-      playerReady(num)
-      if (ready) {
-        playGameMulti(socket,Playerdata,room)
-        playerReady(num)
-      }
-    })
-
     socket.on('check-players',players =>{
       players.forEach((p,i)=>{
         if(p.connected) playerConnectedOrDisconnected(i)
@@ -303,8 +397,35 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
         }
       })
     })
+
+    start.addEventListener('click',() =>{
+      socket.emit('player-ready',room)
+      playerReady(PlayNum)
+      if(!ready){
+       socket.emit('player-ready',room)
+       ready = true
+     }
+     if(ready && enemyReady ) playGameMulti(socket, Playerdata,room,wallet)
+     console.log('2222222222')
+     })
+   
+   
+    socket.on('player-connection',(num,datas) => {
+      console.log(`Player number ${num} has connected or desconnected`)
+      playerConnectedOrDisconnected(num)
+    })
+
+    socket.on('enemy-ready', num => {
+      enemyReady = true
+      playerReady(num)
+      if (ready) {
+        playGameMulti(socket,Playerdata,room,wallet)
+        playerReady(num)
+      }
+    })
+
+   
     function playerReady(num){
-      
       let player = `.p${parseInt(num) +1}`
       document.querySelector(`${player} .ready span`).classList.toggle('green')
     }
@@ -314,11 +435,11 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
       document.querySelector(`${player} .connected span`).classList.toggle('green')
       if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
     }
-
+    
   }
   
 
-  const playGameMulti = async (socket,Playerdata,room) =>{
+  const playGameMulti = async (socket,Playerdata,room,wallet) =>{
     let resu;
     if(!ready){
       socket.emit('player-ready',room)
@@ -332,10 +453,29 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
         PData:Playerdata,
        socket:socket,
        room:room,
-       onComplete: (didWin) => {
+       wallet:wallet,
+       onComplete: async (didWin) => {
         resu = (didWin ? "WON_BATTLE" : "LOST_BATTLE");
+        if(didWin[0] == blockchain.account){
+        
+          let winner = didWin[0]
+          let id = didWin[1]
+          let cost = CONFIG.WEI_COST;
+          let gasLimit = CONFIG.GAS_LIMIT;
+          let totalCostWei = String(cost);
+          let totalGasLimit = String(gasLimit);
+           await blockchain.smartContract.methods.withdrowBet(id,winner).send({
+            to: CONFIG.CONTRACT_ADDRESS,
+            from: blockchain.account,
+            gasLimit: totalGasLimit,
+           })
+        }
+
+        
+       
       }
       })
+ 
        
         let a = document.querySelector(".Battle")
         if(!a){
@@ -343,6 +483,49 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
         }
   }
 
+
+
+  const playGameMultiNormal = async (socket,Playerdata,room,wallet) =>{
+    let resu;
+    if(!ready){
+      socket.emit('player-readyN',room)
+      ready = true
+      playerReady(PlayNum)
+    }
+      const batOnline = new BatOnline({
+        PlayNum:PlayNum,
+        PData:Playerdata,
+       socket:socket,
+       room:room,
+       wallet:wallet,
+       onComplete: async (didWin) => {
+        resu = (didWin ? "WON_BATTLE" : "LOST_BATTLE");
+        if(didWin[0] == blockchain.account){
+          
+          // let winner = didWin[0]
+          // let id = didWin[1]
+          // let cost = CONFIG.WEI_COST;
+          // let gasLimit = CONFIG.GAS_LIMIT;
+          // let totalCostWei = String(cost);
+          // let totalGasLimit = String(gasLimit);
+          //  await blockchain.smartContract.methods.withdrowBet(id,winner).send({
+          //   to: CONFIG.CONTRACT_ADDRESS,
+          //   from: blockchain.account,
+          //   gasLimit: totalGasLimit,
+          //  })
+        }
+
+        
+        
+      }
+      })
+     
+       
+        let a = document.querySelector(".Battle")
+        if(!a){
+          batOnline.init(document.querySelector(".game-container"));
+        }
+  }
 
 
   // function displayOnlineGame() {
@@ -353,6 +536,172 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
   //     x.style.display = "block";
   //   }
   // }
+
+  const OnlineGameNormal = async  (idgame)=>{
+    const socket = io('http://127.0.0.1:3333/normal')
+   
+    let room = inputNormal.value
+    
+    let wallet = blockchain.account
+    socket.emit('joinN',room,wallet);
+    let data = window.playerState 
+    let nfts = window.Pizzas
+    data['wallet'] = wallet
+    data['idgame'] = idgame
+    console.log(wallet)
+    socket.emit('player-dataN', data,nfts,room,wallet)
+   
+    socket.on('player-numberN',(num,datas )=> {
+      console.log(num,'PPAPAPAPAPAP')
+      localStorage.setItem('PlayerNumber',num);
+      
+      if (num == -1){
+        infoDisplay.innerHTML = "Sorry, the server is full"
+      }else {
+        PlayNum = parseInt(num)
+      }
+      if(PlayNum == 1) currentPlayer ="enemy"
+      socket.emit('check-playersN',room)
+    })
+    socket.on('dataN',(data,nft)=>{
+      Playerdata = data
+      localStorage.setItem('PlayerData', JSON.stringify(data));
+      localStorage.setItem('nfts', JSON.stringify(nft));
+    })
+    socket.on('check-playersN',players =>{
+      players.forEach((p,i)=>{ 
+        if(p.connected) playerConnectedOrDisconnected(i)
+        if(p.ready){
+          playerReady(i)
+          if(i != PlayNum) enemyReady = true
+        }
+      })
+    })
+    startNormal.addEventListener('click',() =>{
+     socket.emit('player-readyN',room)
+     playerReady(PlayNum)
+     if(!ready){
+      socket.emit('player-readyN',room)
+      ready = true
+    }
+    if(ready && enemyReady ) playGameMultiNormal(socket, Playerdata,room,wallet)
+    console.log('11111111')
+    })
+
+
+    socket.on('player-connectionN',(num,datas) => {
+      playerConnectedOrDisconnected(num)
+    })
+
+    socket.on('enemy-readyN', num => {
+      enemyReady = true
+      playerReady(num)
+      if (ready) {
+        playGameMultiNormal(socket,Playerdata,room,wallet)
+        playerReady(num)
+      }
+    })
+
+   
+
+    function playerReady(num){
+      let player = `.pN${parseInt(num) +1}`
+      document.querySelector(`${player} .ready span`).classList.toggle('green')
+    }
+
+    function playerConnectedOrDisconnected(num) {
+      console.log(num)
+      if(num >= 0 && num <= 1){
+        let player = `.pN${parseInt(num) +1}`
+        document.querySelector(`${player} .connected span`).classList.toggle('green')
+        if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
+      }
+    }
+    
+  }
+ 
+
+ 
+
+
+  const OnGameNormal = async  (room,idgame)=>{
+    const socket = io('http://127.0.0.1:3333/normal')
+    let wallet = blockchain.account
+    socket.emit('joinN',room,wallet);
+    let data = window.playerState 
+    let nfts = window.Pizzas
+    data['wallet'] = wallet
+    data['idgame'] = idgame
+    socket.emit('player-dataN', data,nfts,room,wallet)
+    socket.on('player-numberN',(num,datas, )=> {
+     
+      localStorage.setItem('PlayerNumber',num);
+      console.log(num,'PPAPAPAPAPAP')
+      if (num == -1){
+        infoDisplay.innerHTML = "Sorry, the server is full"
+      }else {
+        PlayNum = parseInt(num)
+      }
+      if(PlayNum == 1) currentPlayer ="enemy"
+      socket.emit('check-playersN',room)
+    })
+
+    socket.on('dataN',(data,nft)=>{
+      Playerdata = data
+      localStorage.setItem('PlayerData', JSON.stringify(data));
+      localStorage.setItem('nfts', JSON.stringify(nft));
+    })
+    
+
+    startNormal.addEventListener('click',() =>{
+      socket.emit('player-readyN',room)
+      playerReady(PlayNum)
+      if(!ready){
+       socket.emit('player-readyN',room)
+       ready = true
+     }
+     if(ready && enemyReady ) playGameMultiNormal(socket, Playerdata,room,wallet)
+     console.log('2222222222')
+     })
+   
+   
+    socket.on('player-connectionN',(num,datas) => {
+      console.log(`Player number ${num} has connected or desconnected`)
+      playerConnectedOrDisconnected(num)
+    })
+
+    socket.on('enemy-readyN', num => {
+      enemyReady = true
+      playerReady(num)
+      if (ready) {
+        playGameMultiNormal(socket,Playerdata,room,wallet)
+        playerReady(num)
+      }
+    })
+
+    socket.on('check-playersN',players =>{
+      players.forEach((p,i)=>{
+        if(p.connected) playerConnectedOrDisconnected(i)
+        if(p.ready){
+          playerReady(i)
+          if(i != PlayNum) enemyReady = true
+        }
+      })
+    })
+
+    function playerReady(num){
+      let player = `.pN${parseInt(num) +1}`
+      document.querySelector(`${player} .ready span`).classList.toggle('green')
+    }
+
+    function playerConnectedOrDisconnected(num) {
+      let player = `.pN${parseInt(num) +1}`
+      document.querySelector(`${player} .connected span`).classList.toggle('green')
+      if(parseInt(num) == PlayNum) document.querySelector(player).style.fontWeight = 'bold'
+    }
+   
+  }
+
   function displayOnlineGame() {
     const x = document.getElementById("container-rooms");
     const z = document.getElementById("main-content-content")
@@ -365,7 +714,20 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
     const x = document.getElementById("container-rooms");
     if (document.getElementById("container-rooms")) {
       x.style.display = "none";
-
+    }
+  }
+  function displayOnlineGameNormal() {
+    const x = document.getElementById("container-rooms-normal");
+    const z = document.getElementById("main-content-content")
+    if (document.getElementById("container-rooms")) {
+      x.style.display = "block";
+      z.style.overflow = "hidden";
+    }
+  }
+  function cancelOnlineGameNormal() {
+    const x = document.getElementById("container-rooms-normal");
+    if (document.getElementById("container-rooms-normal")) {
+      x.style.display = "none";
     }
   }
 
@@ -474,11 +836,40 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
         <div className="container-rooms" id="container-rooms">
         <div className="rooms-title">ROOMS</div>
         <div className="container-rooms-join-create">
+        <button onClick={() => getRoom()}> Refrech</button>
         <input  id="input" className="search-bar-rooms"></input>
-        <button onClick={()=>OnlineGame()} className="join-room-rooms">Create game</button>
+        <button  onClick={async()=> {
+          getRoom()
+         let p = await getRoomLastid()
+         let id = p +1
+         
+          setIdbet(()=>{Idbet = id})
+          
+          let cost = CONFIG.WEI_COST;
+          let gasLimit = CONFIG.GAS_LIMIT;
+          let totalCostWei = String(cost);
+          let totalGasLimit = String(gasLimit);
+         await blockchain.smartContract.methods.createBet(id).send({
+          to: CONFIG.CONTRACT_ADDRESS,
+          from: blockchain.account,
+          value: totalCostWei,
+          gasLimit: totalGasLimit,
+         }) .once("error", (err) => {
+          console.log(err);
+          setFeedback("Sorry, something went wrong please try again later.");
+        })
+        .then((receipt) => {
+          OnlineGame(id);
+        });
+       
+         
+        }} className="join-room-rooms">Create game</button>
+       
+        {/* <button onClick={async()=>{
+
+        }}> CANCEL BET</button> */}
         <button id="start"> Ready</button>
         </div>
-        <div  className="big-container-room">
         <div className="online-game-container">
                         <div className="player p1">
                           {" "}
@@ -495,8 +886,6 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
                           id="input-game-session"
                         >
                           <div id="info"></div>
-        
-                        
                        
                         </div>
                         <div className="row  justify-content-center">
@@ -513,24 +902,103 @@ myHeaders.append('Authorization', 'Basic cHJlc3RhdGFpcmVAYm5ic2l0dGVyLmNvbToxMjM
                           </div>
                         </div>
                       </div>
+        <div  className="big-container-room">
                       <div> {Roomlist} </div>
         </div>
            <div className="container-cancel-button-bushi">
            <button id="cancel-button-bushi" onClick={cancelOnlineGame}>Cancel</button>
              </div>
       </div>
+
+
+      <div className="container-rooms" id="container-rooms-normal">
+        <div className="rooms-title">ROOMS</div>
+        <div className="container-rooms-join-create">
+        <button onClick={() => getRoomNormal()}> Refrech</button>
+        <input  id="inputNormal" className="search-bar-rooms"></input>
+        <button  onClick={async()=> {
+          getRoomNormal()
+         let p = await getRoomLastidNormal()
+         let id = p +1
+        
+          
+        //   let cost = CONFIG.WEI_COST;
+        //   let gasLimit = CONFIG.GAS_LIMIT;
+        //   let totalCostWei = String(cost);
+        //   let totalGasLimit = String(gasLimit);
+        //  await blockchain.smartContract.methods.createBet(id).send({
+        //   to: CONFIG.CONTRACT_ADDRESS,
+        //   from: blockchain.account,
+        //   value: totalCostWei,
+        //   gasLimit: totalGasLimit,
+        //  }) .once("error", (err) => {
+        //   console.log(err);
+        //   setFeedback("Sorry, something went wrong please try again later.");
+        // })
+        // .then((receipt) => {
+        //   OnlineGame(id);
+        // });
+        OnlineGameNormal(id);
+        
+ 
+        }} className="join-room-rooms">Create game</button>
+        <button id="startNormal"> Ready</button>
+        </div>
+        <div className="online-game-container">
+                        <div className="player pN1">
+                          {" "}
+                          player 1
+                          <div className="connected">
+                            Connected <span></span>
+                          </div>
+                          <div className="ready">
+                            Ready <span></span>
+                          </div>
+                        </div>
+                        <div
+                          className=" justify-content-center"
+                          id="input-game-session"
+                        >
+                          <div id="info"></div>
+                       
+                        </div>
+                        <div className="row  justify-content-center">
+                          <div className="player pN2">
+                            {" "}
+                            player 2
+                            <div className="connected">
+                              Connected <span></span>
+                              <div className="ready">
+                                Ready <span></span>
+                              </div>
+                            </div>
+                            <div className="ready"></div>
+                          </div>
+                        </div>
+                      </div>
+        <div  className="big-container-room">
+       
+                      <div> {RoomlistNormal} </div>
+        </div>
+           <div className="container-cancel-button-bushi">
+           <button id="cancel-button-bushi" onClick={cancelOnlineGameNormal}>Cancel</button>
+             </div>
+      </div>
+
                   <div className="container-buttons-online">
                     <div className="container-button-online-load">
                       <div className="container-load-nft">
                         <button onClick={() => getDatanfts()}> Load NFTS</button>
-                        <button onClick={() => getRoom()}> GET</button>
+                       
+                        
                       </div>
                       <div className="container-button-online-game">
                         <button onClick={displayOnlineGame} className="text-center">
-                          Online Game
+                          betting
                         </button>
-
-                        
+                        <button onClick={displayOnlineGameNormal} className="text-center">
+                          Normal
+                        </button>
                       </div>
                     </div>
                     <div className="container-online-game" id="container-online-game">

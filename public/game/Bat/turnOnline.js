@@ -86,10 +86,8 @@ class TurnOnline{
       
            
           }
-
-
-
           const winner = this.getWinningTeam();
+          console.log(winner,'WINNER')
     if (winner) {
       await this.onNewEvent({
         type: "textMessage",
@@ -115,21 +113,23 @@ class TurnOnline{
       }
         
           this.currentTeam = this.currentTeam === "player" ? "enemy" : "player";
-          
           this.turn();
     }
 
     getWinningTeam() {
         let aliveTeams = {};
         Object.values(this.battle.combatants).forEach(c => {
+          console.log(c)
           if (c.hp > 0) {
+            aliveTeams['winnerteam'] = c
             aliveTeams[c.team] = true;
           }
         })
-        if (!aliveTeams["player"]) { return "enemy"}
-        if (!aliveTeams["enemy"]) { return "player"}
+        console.log(aliveTeams,'ALIBVE TEAM')
+        if (!aliveTeams["player"]) { return [aliveTeams.winnerteam.wallet,aliveTeams.winnerteam.idgame]}
+        if (!aliveTeams["enemy"]) { return [aliveTeams.winnerteam.wallet,aliveTeams.winnerteam.idgame]}
         return null;
-      }
+    }
 
     nextTurn() {
         this.currentTeam = this.currentTeam === "player" ? "enemy" : "player";
